@@ -1,2 +1,0 @@
-# vsrdesigns
-Portfolio Website
