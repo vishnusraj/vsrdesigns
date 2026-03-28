@@ -1,0 +1,1432 @@
+<?php
+include 'config.php';
+session_start();
+if(!isset($_SESSION['id']))
+{
+	header('location:http://www.krutovodka.in/index.php');	
+}
+$useragent=$_SERVER['HTTP_USER_AGENT'];
+if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($useragent,0,4)))
+{
+header('Location: http://www.krutovodka.in/mob/kruto.php');
+}
+
+
+$s=mysql_query("SELECT * FROM `cocktail`");
+$l=mysql_num_rows($s);
+
+$martini=mysql_query("SELECT * FROM `cocktail` where `kruto_types`='Twisted Martins'");
+$martini_l=mysql_num_rows($martini);
+
+$rockstars=mysql_query("SELECT * FROM `cocktail` where `kruto_types`='Twisted Rockstars'");
+$rockstars_l=mysql_num_rows($rockstars);
+
+$shooters=mysql_query("SELECT * FROM `cocktail` where `kruto_types`='Twisted Shooters'");
+$shooters_l=mysql_num_rows($shooters);
+
+$snobs=mysql_query("SELECT * FROM `cocktail` where `kruto_types`='Twisted Snobs'");
+$snobs_l=mysql_num_rows($snobs);
+
+$mules=mysql_query("SELECT * FROM `cocktail` where `kruto_types`='Twisted Mules'");
+$mules_l=mysql_num_rows($mules);
+
+$ww=$l*100;
+?>
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>kruto</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" href="css/jquery-ui.css" />
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jscroll/jquery.nicescroll.js"></script>
+<script src="js/kruto.js"></script>  
+<script src="js/scrollto/lib/jquery-scrollto.js"></script>
+<script src="js/jquery-ui.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Raleway:400,200,100,300,500,600,700,800,900' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Alegreya:400,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'> 
+</head>
+<body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "../../../connect.facebook.net/en_US/sdk.js#xfbml=1&appId=357475327787077&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div id="loader-wrapper">
+			<div id="loader"></div>
+			<div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+		</div>
+<div class="container">
+    <div class="page one">
+    <div class="fix">
+        <img src="images/krutologo.png" style="position:fixed;z-index:999; right:0;top:100px; height:120px; width:40px; float:left"/>
+        <a href="#"><img id="y" src="images/youtube.png" style="position:fixed;z-index:999; top:230px; right:5px; width:30px;"/><img id="yc" src="images/youtubec.png" style="position:fixed;z-index:999; top:230px; right:5px; width:30px;display:none"/></a>
+        <a href="https://twitter.com/KrutoVodka" target="https://twitter.com/KrutoVodka"><img id="t" src="images/twitter.png" style="position:fixed;z-index:999; right:5px; top:270px; width:30px;"/><img id="tc" src="images/twitterc.png" style="position:fixed;z-index:999; right:5px; top:270px; width:30px; display:none"/></a>
+        <a href="https://www.facebook.com/KrutoVodkaIndia" target="_blank"><img id="f" src="images/facebook.png" style="position:fixed;z-index:999; right:5px; top:310px;width:30px;;"/><img id="fc" src="images/facebookc.png" style="position:fixed;z-index:999; right:5px; top:310px; width:30px; display:none"/></a>
+	</div>
+    <audio id="cocktailmusic" src="music/1.mp3" loop style="position:absolute; right:0; bottom:15vh; width:10vw;"></audio>
+                <img id="play" src="images/music_on.png" style="position:fixed;z-index:999; right:5px; top:350px; width:30px; display:none""/>
+                <img id="pause" src="images/music_off.png" style="position:fixed;z-index:999; right:5px; top:350px; width:30px;"/>
+    
+    
+    <img class="resp" src="images/leftcorner.png" style="position:fixed;z-index:999;left:-5.4vw; float:left;top:82vh; height:2.5vh;"/>
+    	<div class="menu">
+            <div class="menu_items"><!--
+                <span class="philo">WHO AM I</span><span class="cocktails">MIX ME UP</span><span class="me">ME</span><span class="fame">FAME</span><span class="party">AFTER PARTY</span><span class="mir">MIR</span><span class="contact" style="text-align:center; margin:auto"><img  src="images/contact.png"/></span><span class="locate" style="text-align:center; margin:auto"><img  src="images/locate.png"/></span>
+                <br/><br/>-->
+                <span class="philo" style="width:5%"><img id="homered" src="images/homered.png" style="position:absolute; margin-left:0%;"/><img id="home" src="images/home.png"/></span><span class="kruto" style="width:10%">KRUTO</span><span class="mystory_d" style="width:10%">STORIES</span><span class="mystory">UR STORY</span><span class="cocktails" style="width:10%">MIXES</span><span class="party" style="width:12%">PARTIES</span><span id="mir"><a href="http://mirspirits.com/" target="_blank" style="text-decoration:none;">MIR Spirits</a></span><span class="contact" style="width:8%">CONTACT US</span><span class="locate"style="width:5%"><img class="locate" id="locatered" src="images/locatered.png" style="position:absolute; margin-left:0%"/><img id="locate"  src="images/locate.png"/></span>
+            </div>
+            
+        </div>
+        <div class="kruto_drop menu_dropdown" style="margin-left:16%;margin-top:50px">
+        	<div class="menu_d_block fimg4">PHILOSOPHY</div>
+            <div class="menu_d_block me">CREATION</div>
+            <div class="menu_d_block fame">FAME</div>
+        </div>
+        <div class="story_drop menu_dropdown" style="margin-left:25%;margin-top:50px;">
+        	<div class="menu_d_block fimg1">FREEDOM</div>
+            <div class="menu_d_block fimg3">FAITH</div>
+            <div class="menu_d_block fimg5">LOVE</div>
+        </div>
+        <div class="pics_cntnr">
+        	<div class="img1" style="margin-left:0">
+            	<img src="images/1.jpg"/>
+            </div>
+            
+            <div class="img3">
+            	<img src="images/3.jpg"/>
+            </div>
+            <div class="img4">
+            	<img src="images/bottle_white.png" />
+            </div>
+            <div class="img5">
+            	<img src="images/5.jpg"/>
+            </div>
+        </div>
+        
+        <div class="fpics_cntnr">
+        	<div class="fimg1" style="margin-left:0">
+            	<img src="images/f1.jpg" />
+            </div>
+            
+            <div class="fimg3" style="margin-left:25%">
+            	<img src="images/f3.jpg"/>
+            </div>
+            <div class="fimg4" style="margin-left:50.125%; z-index:5">
+            	<img src="images/bottle_black.png" style="margin-left:-25%"/>
+            </div>
+            <div class="fimg5">
+            	<img src="images/f5.jpg" style="z-index:1"/>
+            </div>
+		</div>
+    </div>
+    <div class="page two">
+    	
+        <div class="bottle_quote">
+        	<img src="images/quotes.png" align="center"/>
+        </div>
+        <div class="bottle_img">
+        	<img class="cartoonic" src="images/bottle_white.png"/>
+            <img class="real" src="images/bottle_black.png"/>
+        </div>
+    </div>
+    
+    <div class="four_2 page">
+    	<div class="product_grp1">
+        	<img src="images/product_grp1.png" data-scroll-speed="2"/>
+        </div>
+        <div class="product_grp3">
+        	<img src="images/product_grp3.png" data-scroll-speed="1.5"/>
+        </div>
+        <div class="product_grp2">
+        	<img src="images/product_grp2.png" data-scroll-speed="2.5"/>
+        </div>
+        <div class="product_grp4">
+       		<img src="images/product_grp4.png" data-scroll-speed="1"/>
+        </div>
+        <div class="product_bottle">
+        	<img src="images/product_bottle.png" data-scroll-speed="3"/>
+        </div>
+    </div>
+
+    
+    
+    <div class="six page" style="z-index:9">
+    <div class="cards">
+        <img class="platinum" src="images/platinum.png" data-scroll-speed='1'/>
+        <img class="bestvodka" src="images/bestvodka.png" data-scroll-speed='1.5'/>
+        <img class="gold" src="images/gold.png" data-scroll-speed='3'/>
+        <img class="spirit_comp" src="images/spirit_comp.png" data-scroll-speed='2'/>
+        <img class="beverage" src="images/beverage.png" data-scroll-speed='1.5'/>
+        <img class="krutobottle" src="images/awardskruto.png" data-scroll-speed='2'/>
+    </div>
+    <div class="chasefametxt">
+        <img src="images/chasefame.png" data-scroll-speed='4'/>
+    </div>
+	</div>
+    
+    
+    <div class="two_1 page">
+    	
+        <div class="baldgrp1">
+        	<img src="images/baldgrp1.png" data-scroll-speed="3"/>
+        </div>    
+        <div class="baldgrp3">
+        	<img src="images/baldgrp3.png" data-scroll-speed="2"/>
+        </div>
+        
+        <div class="baldgrp4">
+        	<img src="images/baldgrp4.png" data-scroll-speed="3"/>
+        </div>
+        <div class="baldgrp2">
+        	<img src="images/baldgrp2.png" data-scroll-speed="1"/>
+        </div>
+        <div class="baldgirlshine">
+        	<img src="images/baldgirlshine.png" data-scroll-speed="2"/>
+        </div>
+        <span style="position:relative;">
+        	<div style="position:absolute; width:auto; height:auto; bottom:0;right:-100vw; top:90vh" class="fb-share-button" data-href="http://www.krutovodka.in/index.php?img=freedom&tit=CHASE FREEDOM" data-layout="button"></div>
+        </span>
+    </div>
+    
+    
+     <div class="page three">
+
+        <div class="grp1">
+        	<img src="images/grp1.png" data-scroll-speed="1.5"/>
+        </div> 
+        <div class="grp2">
+        	<img src="images/grp2.png" data-scroll-speed="1"/>
+        </div>
+        <div class="grp3">
+        	<img src="images/grp3.png" data-scroll-speed="2"/>
+        </div>
+        <div class="grp4">
+        	<img src="images/grp4.png" data-scroll-speed="3"/>
+        </div>
+        <div class="grp5">
+        	<img src="images/grp5.png" data-scroll-speed="2"/>
+        </div>
+        <div class="zoom">
+        	<img src="images/zoom.png" data-scroll-speed="1"/>
+        </div>
+        
+         <span style="position:relative;">
+        	<div style="position:absolute; width:auto; height:auto; bottom:0;right:-100vw; top:90vh" class="fb-share-button" data-href="http://www.krutovodka.in/index.php?img=faith&tit=CHASE FAITH" data-layout="button"></div>
+        </span>
+    </div>
+    
+     
+    <div class="six_1 page">
+        <div class="tatoogrp1">
+        	<img src="images/tatoogrp1.png" data-scroll-speed="2"/>
+        </div>
+        <div class="tatoogrp2">
+        	<img src="images/tatoogrp2.png" data-scroll-speed="1.5"/>
+        </div>
+        <div class="tatoogrp3">
+        	<img src="images/tatoogrp3.png" data-scroll-speed="2"/>
+        </div>
+        <div class="tatoogrp4">
+        	<img src="images/tatoogrp4.png" data-scroll-speed="1.5"/>
+        </div>
+        <div class="tatoogrp5">
+        	<img src="images/tatoogrp5.png" data-scroll-speed="2"/>
+        </div>
+        <div class="tatoogrp6">
+        	<img src="images/tatoogrp6.png" data-scroll-speed="2"/>
+        </div>
+        <div class="tatoogrp7">
+        	<img src="images/tatoogrp7.png" data-scroll-speed="2"/>
+        </div>
+    	 <span style="position:relative;">
+        	<div style="position:absolute; width:auto; height:auto; bottom:0;right:-100vw; top:90vh" class="fb-share-button" data-href="http://www.krutovodka.in/index.php?img=love&tit=CHASE LOVE" data-layout="button"></div>
+        </span>
+	</div>
+    
+    <div class="four_1 page">
+    	<div class="mystory1">
+        	<img src="images/mystory1.png" data-scroll-speed="2"/>
+        </div>
+        <div class="mystorytit">
+        	<img src="images/mystorytit.png" data-scroll-speed="3"/>
+        </div>
+        
+        <div class="mystorypostb">
+        	<img src="images/mystorypostb.png" data-scroll-speed="2" />
+        </div>
+        <div class="mystorypostw">
+			<a href="https://www.facebook.com/KrutoVodkaIndia/messages/?section=messages&amp;subsection=inbox" target="_blank"><img src="images/mystorypostw.png" data-scroll-speed="2" style="opacity:0;z-index:5;"/></a>
+        </div>
+        <div class="mystorychat">
+        	<img src="images/mystorychat.png" data-scroll-speed="3"/>
+        </div>
+        <div class="mystoryfoot">
+        	<img src="images/mystoryfoot.png" data-scroll-speed="4"/>
+        </div>
+    </div>
+   
+    <div class="four page">
+        <div class="slider">
+            <div class="front_slide">
+            	
+                <img id="corner" src="images/girl_corner.png" style="width:40%; position:absolute;margin-left:0%; margin-top:6%" rot="-8"/>
+                <img id="lemon" src="images/lemoncut.png" style="width:33%; position:absolute;margin-left:29.5%; margin-top:6%" rot="-4"/>
+                
+                <img src="images/cocktailshake.png" style="position:absolute; width:32.5%; margin-left:45%; margin-top:22.8%" rot="7"/>
+                
+                <img id="lines" src="images/cocktaillines.png" style=" position:absolute; width:46.5%; margin-left:2.5%; margin-top:22.5%" rot="-14"/>
+                <img id="shake" id="animated-example" class="animated shake" src="images/cocktailshake2.png" style="position:absolute; width:17%; margin-left:46.5%; margin-top:25.5%" rot="7"/>
+                <img id="man" src="images/cocktailman.png" style="position:absolute; width:23%; margin-left:54.5%; margin-top:10.8%" rot="15"/>
+                
+                
+                <img id="diag" src="images/cocktaildiag.png" style="position:absolute; margin-left:68%; margin-top:19%" rot="-10"/>
+                <img id="pour" src="images/pour_bottle.png" style="position:absolute; width:31%; margin-left:2%; margin-top:26.7%" rot="-8"/>
+                <img id="nxt_hover" src="images/cocktailchase2.png" style="position:absolute; width:3.35%; margin-left:79%; margin-top:10.9%" class="nex1" rot="0"/>
+                <img id="nxt_nhover" src="images/cocktailchase.png" style="position:absolute; width:3.35%; margin-left:79%; margin-top:10.9%" class="nex1" rot="0"/>
+                <img src="images/twisted_martins_btn.png" tname="Twisted Martins" style=" position:absolute; width:7.6%; margin-top:40.5%; margin-left:34.8%"/>
+                <img src="images/twisted_rockstars_btn.png" tname="Twisted Rockstars"style=" position:absolute; width:7.8%; margin-top:40.5%; margin-left:42.8%"/>
+                <img src="images/twisted_shooters_btn.png" tname="Twisted Shooters"style=" position:absolute; width:7.8%; margin-top:40.5%; margin-left:50.55%"/>
+                <img src="images/twisted_snobes_btn.png" tname="Twisted Snobs"style=" position:absolute; width:7.6%; margin-top:40.5%; margin-left:58.7%"/>
+                <img src="images/twisted_mules_btn.png" tname="Twisted Mules"style=" position:absolute; width:7.6%; margin-top:40.5%; margin-left:66.7%"/>
+                <img src="images/twisted_blank_btn.png" style=" position:absolute; width:7.6%; margin-top:40.5%; margin-left:74.7%"/>
+                
+                
+                <img src="images/twisted_martinsh_btn.png" class="btn" id="martini" tname="Twisted Martins" style="opacity:0; position:absolute; width:7.6%; margin-top:40.5%; margin-left:34.9%""/>
+                <img src="images/twisted_rockstarsh_btn.png" class="btn" id="rockstars" tname="Twisted Rockstars" style="opacity:0; position:absolute; width:7.8%; margin-top:40.5%; margin-left:42.5%"/>
+                <img src="images/twisted_shootersh_btn.png" class="btn" id="shooters" tname="Twisted Shooters" style="opacity:0; position:absolute; width:7.8%; margin-top:40.5%; margin-left:50.70%"/>
+                <img src="images/twisted_snobesh_btn.png" class="btn" id="snobs" tname="Twisted Snobs" style="opacity:0; position:absolute; width:7.8%; margin-top:40.5%; margin-left:58.7%"/>
+                <img src="images/twisted_mulesh_btn.png" class="btn" id="mules" tname="Twisted Mules" style="opacity:0; position:absolute; width:7.6%; margin-top:40.5%; margin-left:66.7%"/>
+                
+                
+                
+            </div>
+            <div class="wrapper">
+            
+                <img src="images/slider_bk.png" style="position:absolute; width:100%; height:110vh; "/>
+                <img id="slider_bottle_w" src="images/slider_bottle_w.png" style="position:absolute; width:5.1vw; height:37vh; margin-left:51.9vw; margin-top:64vh; opacity:0"/>	
+                
+                <div class="slides">
+				<?php
+				$i=1;
+				while($af=mysql_fetch_array($s))
+				{
+					$cls=strtolower(str_replace(' ','',$af['kruto_types']));
+						?>
+                        <div id="slide<?php echo $i; ?>" class="<?php echo $cls ?>">
+                        <?php
+                        $bottletype = getimagesize("admin/images/bottle_image/".$af['bottle_image']);
+                        $width = $bottletype[0];
+                        $height = $bottletype[1];
+						?>
+                            <span id="t<?php echo $i; ?>" style=" display:table; vertical-align:middle; position:absolute; color:#fff; font-size:1.3vw; line-height:1.5vw; text-align:center; width:9.5vw; height:7vh; margin-left:32vw; margin-top:24vh; background:#d22328;">
+                            <span style=" display:table-cell;vertical-align:middle;">
+                            	<?php echo  $af['kruto_types']?>
+                            </span>
+                            </span>
+                            
+                            
+                            <img src="images/inc_bk.png" style="position:absolute; width:35vw; height:40vh; margin-left:8vw; margin-top:14vh;"/>
+                            <span style=" font-size:.8vw; letter-spacing:1px;text-align:center; line-height:2vw; position:absolute; width:14vw; height:20vh;  margin-left:26vw;  margin-top:22vh;display:table;  float:left;">
+                            <p style=" width:14vw; height:28vh; float:left; display:table-cell;vertical-align:middle;"><?php echo nl2br($af['ingredients']); ?></p>
+                            </span>
+                            
+                            
+                            
+                            
+                            <img src="images/sliderman.png" style=" position:absolute; height:66vh; width:15vw; margin-left:65.5vw; margin-top:40.5vh"/>
+                            <?php if($width==315) //for martini
+                            {?>
+                            <img src="admin/images/bottle_image/_4128.html?php%20echo%20$af['bottle_image'];%20?>" style="position:absolute; height:25vh; width:20vw;margin-left:70.5vw; margin-top:78.4vh"/>
+                            <?php
+                            }
+                            else if($width==290)//rockstars
+                            {?>
+                            <img src="admin/images/bottle_image/_4128.html?php%20echo%20$af['bottle_image'];%20?>" style="position:absolute; height:25vh; width:16vw; margin-left:70.5vw; margin-top:78vh"/>
+                            <?php
+                            }
+							else if($width==236)//shooters
+                            {?>
+                            <img src="admin/images/bottle_image/_4128.html?php%20echo%20$af['bottle_image'];%20?>" style="position:absolute; height:25vh; width:14vw; margin-left:70.5vw; margin-top:78vh"/>
+                            <?php
+                            }
+							else if($width==269)//snobes
+                            {?>
+                            <img src="admin/images/bottle_image/_4128.html?php%20echo%20$af['bottle_image'];%20?>" style="position:absolute; height:40vh; width:20vw; margin-left:70.5vw; margin-top:64.4vh"/>
+                            <?php
+                            }
+                            else if($width==317)//mules
+                            {?>
+                            <img src="admin/images/bottle_image/_4128.html?php%20echo%20$af['bottle_image'];%20?>" style="position:absolute; height:27vh; width:20vw; margin-left:70.5vw; margin-top:78vh"/>
+                            <?php
+                            }
+                            ?>
+                            <img src="images/holykruto.png" style="position:absolute; height:22vh; width:15vw; margin-left:33.5vw; margin-top:78vh;"/>
+                            <p style="display:table;font-size:2vw; text-align:center; color:#ccc; position:absolute; line-height:2vw; width:12vw; height:19vh; margin-left:34.5vw; margin-top:80vh;"><span style="display:table-cell; vertical-align:middle"><?php echo $af['kruto_name']; ?></span></p>
+                           <!-- <img src="images/diags.png" style="width:35%; margin-left:57%; margin-top:3%"/>-->
+                            <img id="s<?php echo $i; ?>1" class="dia1" src="images/dia1.png" style="position:absolute; margin-left:73vw; margin-top:56vh"/>
+                            <p class="p1" id="p<?php echo $i; ?>1" style="display:table;opacity:0; height:12vh; text-align:center;letter-spacing:1px;font-size:.8vw;position:absolute; margin-left:53vw; margin-top:35vh; vertical-align:middle; overflow:hidden"><span style="display:table-cell; vertical-align:middle"><?php echo $af['dialog1']; ?></span></p>
+                            <img id="s<?php echo $i; ?>2" class="dia2" src="images/dia2.png" style="position:absolute; margin-left:73vw; margin-top:56vh"/>
+                            <p class="p2" id="p<?php echo $i; ?>2" style=" display:table;opacity:0; height:14vh; vertical-align:middle; text-align:center;font-size:.8vw;letter-spacing:1px;position:absolute; margin-left:63vw; margin-top:18vh;overflow:hidden"><span style="display:table-cell; vertical-align:middle"><?php echo $af['dialog2']; ?></span></p>
+                            <img  id="s<?php echo $i; ?>3" class="dia3" src="images/dia3.png" style="position:absolute; margin-left:73vw; margin-top:56vh"/>
+                            <p class="p3" id="p<?php echo $i; ?>3" style=" display:table;opacity:0; height:14vh;  vertical-align:middle;text-align:center; vertical-align:middle; font-size:.8vw;position:absolute;letter-spacing:1px; margin-left:78.5vw; margin-top:27.5vh; overflow:hidden"><span style="display:table-cell; vertical-align:middle"><?php echo $af['dialog3']; ?></span></p>
+                        </div>
+                            
+                        <?php
+                    $i++;
+				}
+				?>   
+                </div>
+            </div>
+            <div class="nav">
+                <img id="pre" src="images/prvs.png" style="float:left;"/>
+                <img id="nex" src="images/nxt.png" style="float:right; margin-left:300%"/>
+                <img src="images/nxt_txt.png" style=" width:8%; float:right; margin-left:322%; top:62vh"/>
+            </div>
+        </div>    
+    </div>
+
+    <?php
+	$w=mysql_query("SELECT * FROM `parties` WHERE `id`=1");
+	$wf=mysql_fetch_array($w);
+	$x=mysql_query("SELECT * FROM `parties` WHERE `id`=2");
+	$xf=mysql_fetch_array($x);
+	$y=mysql_query("SELECT * FROM `parties` WHERE `id`=3");
+	$yf=mysql_fetch_array($y);
+	$z=mysql_query("SELECT * FROM `parties` WHERE `id`=4");
+	$zf=mysql_fetch_array($z);
+	?>
+        <div class="six_11 page">
+       <form>
+        	<div class="eventholder">
+        		<div class="irsh" id="irsh" style="position:absolute;width:100%;text-align:center; height:97vh; float:left; background:url(images/eventslide_bk.jpg); background-size:100%">
+                <img src="admin/images/event_image/eventdet/1424236666.png" style="width:50%; margin-top:10%;"/>
+                <img class="rtback" src="images/prvs.png" style="width:2%; position:absolute; left:5vw; top:43vh"/>
+                <div style="position:absolute; right:10px; bottom:50px;" class="fb-share-button" data-href="http://www.krutovodka.in/index.php?img=party3&tit=SUPER VIBE" data-layout="button"></div>
+                </div>
+                
+                <div class="cuban" id="cuban" style="position:absolute;width:100%;text-align:center; height:97vh; float:left; background:url(images/eventslide_bk.jpg); background-size:100%">
+                <img src="admin/images/event_image/eventdet/1424237458.png" style="width:50%; margin-top:10%;"/>
+                <img class="rtback" src="images/prvs.png" style="width:2%; position:absolute; left:5vw; top:43vh"/>
+                <div style="position:absolute; right:10px; bottom:50px;" class="fb-share-button" data-href="http://www.krutovodka.in/index.php?img=party2&tit=CUBA LIBRE" data-layout="button"></div>
+                </div>
+                
+                <div class="starkill" id="starkill" style="position:absolute;width:100%;text-align:center; height:97vh; float:left; background:url(images/eventslide_bk.jpg); background-size:100%">
+                <img src="admin/images/event_image/eventdet/1424237631.png" style="width:50%; margin-top:10%;"/>
+                <img class="rtback" src="images/prvs.png" style="width:2%; position:absolute; left:5vw; top:43vh"/>
+                <div style="position:absolute; right:10px; bottom:50px;" class="fb-share-button" data-href="http://www.krutovodka.in/index.php?img=party1&tit=STARKILLERS" data-layout="button"></div>
+                </div>
+                <div class="events" style="position:absolute; width:100%; height:100vh; float:left;">
+                    <img id="event_bk" src="images/event_bk.png" style=" position:absolute; width:100vw;height:97vh; margin-top:0vh"/>
+                   	<img id="square" src="images/event_square.gif" style=" position:absolute; width:53vw; height:72.5vh;margin-left:14.5vw; margin-top:18.5vh"/>
+                    <img id="event_black" src="images/event_black.png" style="position:absolute; width:11vw; height:41vh; margin-left:63vw; margin-top:29.5vh"/>
+                    <img class="bbottle" src="images/event_bbottle.png" style="position:absolute; width:5.8vw; margin-left:65.8vw; margin-top:33.5vh"/>
+                    <img class="wbottle" src="images/event_wbottle.png" style="position:absolute; width:6vw; margin-left:65.7vw; margin-top:33.4vh; display:none"/>
+                    <img src="images/event_casette.gif" style="position:absolute; width:13vw; height:17vh;margin-left:49vw; margin-top:1.5vh;"/>
+                    <img src="images/event_starkillers_bk.png" style="position:absolute; width:22vw; height:28vh; margin-left:62.5vw; margin-top:1vh"/>
+                    <img id="starkill1" src="admin/images/event_image/event/1424237458.png" style="position:absolute; width:20vw; height:26vh; margin-left:63.5vw; margin-top:2vh"/>
+                    <img id="cuba_bk" src="images/event_cuba_bk.png" style="position:absolute; width:16.3vw; height:42.5vh; margin-left:71.5vw; margin-top:25.5vh"/>
+                    <img id="cuban1" src="admin/images/event_image/event/1424237631.png" style="position:absolute; width:14.5vw; height:39.5vh; margin-left:72.5vw; margin-top:27vh"/>
+                    <img src="images/event_supervibe_bk.png" style="position:absolute; width:18vw; height:28vh; margin-top:67vh; margin-left:69vw"/>
+                    <img id="irishhouse" src="admin/images/event_image/event/1424237766.png" style="position:absolute; width:16vw; height:24vh; margin-top:69vh; margin-left:70vw"/>
+                </div>
+                
+		</div>     
+        </form>
+	</div> 
+   
+    
+     <div class="six_2 page" style="height:100hv">
+     	<div class="contact_bg">
+        	<img src="images/contact_bg.png"/>
+        </div><div class="ceo_contact2">
+        	<a href="mailto:amrita@mirspirits.com?Subject=Kruto" style=" position:absolute;text-decoration:none; z-index:6; width:9%;margin-left:70.4%;
+	margin-top:17.7%;"><img src="images/ceo_contact2.png" data-scroll-speed='1' style="z-index:5"/></a>
+        </div>
+        <div class="ceo_contact1">
+        	<a href="mailto:neha@mirspirits.com?Subject=Kruto" style=" position:absolute;text-decoration:none; z-index:6; width:9%;margin-left:60.9%;
+	margin-top:17.7%;"><img src="images/ceo_contact1.png" data-scroll-speed='2' style="z-index:5"/></a>
+        </div>
+        <div class="phno">
+        	<img src="images/phno.png"/>
+        </div>
+        
+        <div class="black_directory">
+        	<img src="images/black_directory.png" data-scroll-speed='3'/>
+        </div>
+        <div class="white_directory">
+        	<img src="images/white_directory.png" data-scroll-speed='4'/>
+        </div>
+        <div class="book_directory">
+        	<img src="images/book_directory.png" data-scroll-speed='5'/>
+        </div>
+        <div class="ring">
+        	<img src="images/ring.png" data-scroll-speed='6'/>
+        </div>
+
+
+	</div>
+    
+ 	<div class="five page" style="z-index:99">
+    	<div class="tit">
+        	<img src="images/store_tit.png" style="margin-top:10%"/>        
+        </div>
+        <script>
+		function jsplaces()
+		{
+			var place=$('.places').val();
+			$('#'+place).fadeIn();
+			$('#'+place).siblings().not('.mapadd,.mapadd table').fadeOut();
+			//$('.mapadd table').not('#'+place+'_table').fadeOut();
+			
+		}
+		</script>
+        
+        <table align="center" border="0" cellpadding="0" cellspacing="0" style="padding-top:30px; text-align:center">
+        <tr>
+        <td>
+        	<select class="places" onChange="jsplaces()">
+            	<option class="sel_default" value="">Select Place</option>
+            	<option value="mumbai">MUMBAI</option>
+                <option value="bangalore">BANGALORE</option>
+                <option value="pune">PUNE</option>
+                <option value="goa">GOA</option>
+            </select>
+        </td></tr>
+        
+        </table>
+        
+       
+        <div class="globe"> 
+        	<img class="globe_rev" src="images/globerev.png" />   
+        	<img class="rot_globe" src="images/globe.png" />
+            <img class="globe_glz" src="images/globeglz.png" />
+        </div> 
+	</div>
+    <div class="page map" style="position:relative; background:url(images/eventslide_bk.jpg)"> 
+        <div class="mapimg">
+        <img id="mumbai" src="images/mumbai_map.png" style="width:40%; margin-left:10%;display:none"/>
+        <img id="bangalore" src="images/bangalore.png" style="width:50%; margin-left:10%; display:none"/>
+        <img id="pune" src="images/pune.png" style="width:40%; margin-left:10%; display:none"/>
+        <img id="goa" src="images/goa.png" style="width:40%; margin-left:10%; display:none"/>
+        
+      <div class="mapadd" style="position:absolute;width:30%; height:95vh; float:right; margin-right:10%; color:#fff;top:4vh; display:table; right:0; vertical-align:middle">
+      <table id="addrss_table" style="width:40vw; display:table-cell; vertical-align:middle">
+      
+      </table>
+      </div>
+            <!-- MUMBAI PLACES STARTS HERE -->
+            <img class="loc mumloc" id="malad" addr="malad west" src="images/map_ico.gif" style="width:2%; margin-left:-32%; margin-top:16%" title="malad west" near="Asha Wines, Malad Ground Floor, Hyper City, Link Road, Malad West, Mumbai - 400062 9702715710 $$ Crystal Wines, Malad 1/2, Leo Apartments, Sunder Lane, Marve Road, Orlem, Malad West, Mumbai - 400064 022 - 28828726, 022 - 28823125 $$ Chincholi Wines, Malad West, Malad Link Road, Malad West, Next To Chincholi Fire Station, Opposite Nirlon Housing Society, Mumbai $$ JOSEPH LAWRENCE WINE CENTRE, Malad West, Gorai Ruby Chs Ltd, Shop No 6, Plot 35, Opposite Status Restaurant, Off L T Road, Gorai II Borivali West, Borivali West, Mumbai, Maharashtra 400092 $$ Living Liquidz,Ground Floor,Hypercity Mall, Malad West, Next To Inorbit Mall, Mumbai - 400064, 022-49182519"/>
+    		<img class="loc mumloc" id="andheri" addr="andheri west" src="images/map_ico.gif" style="width:2%; margin-left:-33%; margin-top:23%" title="andheri west" near="Luvish Wines Stores, Andheri, LokhandwalaShop No 581/B, Next To Ashish Motors,Opposite Tarapore Towers, Lokhandwala Complex, Andheri West, Mumbai - 400053 (022) 45204311 $$ Pushpalaxmi Wines, Andheri(W) Adarsh Nagar, Near Mustakar Petrol Pump, New Link Road, Andheri West, Mumbai - 400053 (022) 45204545 737 $$ Liquor Bank, Andheri(W) JP Rd, Aram Nagar, Versova, Andheri West, Mumbai, Maharashtra 400061 022 2635 2811 $$ Fition Wines Stores, Andheri, Juhu Shop no,1/2, Juhu ekta society, Jvpd Scheme, Next To Karachi Society, New Link Rd, Andheri West, Mumbai - 400053 (022) 26247907 $$ Aradhana Wines, Andheri(W) Shop No 10,Cross Gate Building, 4th Cross Road, Next To Camy Wafers, Lokhandwala (Andheri), Andheri West, Mumbai, - 400053 022 - 26398993, 022 - 26331828, 9821525486 $$ Living Liquidz, Star Bazaar, Crystal Point Mall, New Link Road, Andheri West, Jivan Nagar, Mumbai - 400053, 022-30004000, 095949 11960"/>
+    		<img class="loc mumloc" id="juhu" addr="juhu" src="images/map_ico.gif" style="width:2%; margin-left:-31%; margin-top:27%" title="juhu" near="Juben Wines, Juhu Shop No 1, Shenaz NAV Bahar Society, Near J W Mariot, Juhu Tara Road, Juhu, Mumbai - 400049 (022) 49171340"/>
+    		<img class="loc mumloc" id="andhery" addr="andheri east" src="images/map_ico.gif" style="width:2%; margin-left:-26%; margin-top:25%" title="andheri east" near="Royal Wines, Andheri(E) Shop Number 1 Chakala Sahar Road, Andheri East, Mumbai- 400053, Maharashtra (022) 28343605 $$ Living Liquidz, Shop No 6, M V Road, Andheri East, Near Radha Krishna Hotel, Mumbai - 400069, 022-30004000, 095949 11960 $$ Sheetal Wines, Andheri (E) Shop No 3, Gopal Bhawan, Off M.V. Road, 28th, Azad Rd, Azad Nagar, Andheri East, Mumbai, Maharashtra 400069  09870020444"/>
+    		<img class="loc mumloc" id="khar" addr="khar west" src="images/map_ico.gif" style="width:2%; margin-left:-31%; margin-top:31%" title="khar west" near="Silver Coin Wine Mart, Khar West Shop No 1, Jharna Apartments, Pali Road, Ambedkar Road, Opposite Union Bank, Khar West, Mumbai, - 400052 022 - 26486367, 26996743 $$ Top Most Wines, KharShop No 7, Bajaj Arcade, 31 Union Park, Next To Dot Cold Storage, Ambedkar Road, Khar West, Mumbai - 400052 (022) 4520368 $$ Pankaj Wines, KharCrystal Blue Co Op HSG Soc, Opp Nike Showroom, Jn Of 16th & Khar Danda Road, Khar West, Mumbai - 400052 (022) 26482081 $$ Kanishka Wines , Khar West, Shop no 4, Suraj Bhavan, Opp Gaurav Sweets, Corner Of 1ST & S V Road, Khar West, Mumbai, Maharashtra 400052"/>
+    		<img class="loc mumloc" id="bandra" addr="bandra" src="images/map_ico.gif" style="width:2%; margin-left:-32%; margin-top:33%" title="bandra" near="Vineyard Wine, Bandra Homai Abad, 240, Linking Road, Bandra (W), Mumbai 02226439993, 02226432988 $$ Parry Wines, Bandra Homeland Building, Shop No. 55, Hill Road, Bandra West, Mumbai 02226423558, 02226511526, 9867238611 , 9324875727 $$ Deepka Wines, Bandra West, Shop No: 3, Silver Croft,Opposite Pali Sabji Market, Pali Hill, Pali Mala Road, Bandra West, Mumbai, Maharashtra 400050 $$ Junde Wines Cellar, Bandra West, Shop No 4, 10 A, Lourdes Haven, Pali Junction, Bandra (W), Mumbai, Maharashtra 400050 $$ Pinky Wines, Bandra, Shop No. 11,Jaldarshan Building, Chimbai Road, Bandra West, Mumbai, Maharashtra 400050"/>
+    		<img class="loc mumloc" id="worli" addr="worli" src="images/map_ico.gif"  style="width:2%; margin-left:-33%; margin-top:40%" title="worli" near="King's Wine Shop, Worli Opposite Charity Commissioner Office, Dr Annie Besant Road, Worli, Mumbai - 400018 022 - 24938470 $$ Fun & Fiar, Worli, No. 4, Neelam Building, Near Flora Restaurant, R. G Thadani Marg, Worli, Mumbai - 400018 $$ Worli Wine Mart, Worli, Dr Annie Besant Road, Worli, Opp Mico & Barclays Bank, Mumbai - 400018"/>
+    		<img class="loc mumloc" id="nepean" addr="Nepean Sea Road" src="images/map_ico.gif" style="width:2%; margin-left:-35%; margin-top:45%" title="Nepean Sea Road" near="Warden Liquor- Nepean Sea Road Dhunabad,106, Opposite St Stephen Church, Bhulabhai Desai Road, Warden Road, Mumbai - 400026 (022) 23679268 $$ Moksh Wines, Nepean Sea Road Shop No 5, Griej Kutir Shopping Center, Rungta Lane, Opposite Regency Hotel, Nepean Sea Road, Malabar Hill, Mumbai, - 400006 022 - 23681623, 23681688"/>
+    		<img class="loc mumloc" id="walkeshwar" addr="walkeshwar" src="images/map_ico.gif" style="width:2%; margin-left:-36%; margin-top:46%" title="walkeshwar" near="Framrose & Co, Walkeshwar 108, Near White House, Walkeshwar Road, Walkeshwar, Mumbai - 400006. (022) 23679268"/>
+            <img class="loc mumloc" id="powai" addr="powai" src="images/map_ico.gif" style="width:2%; margin-left:-21%; margin-top:24%" title="powai" near="Kings Wines, Powai, Shop No. 2, Galleria, Hiranandani Garden, Powai - I. I. T, Mumbai - 400076 $$ Star Wines , Powai, Shop No. 4 & 5, Daffodil Building, Central Avenue, Hiranandani Gardens, Mumbai, Maharashtra 400076"/>
+            <img class="loc mumloc" id="parel" addr="parel" src="images/map_ico.gif" style="width:2%; margin-left:-30%; margin-top:40.5%" title="parel" near="London Wines, Parel, Yasmin Villa, Doctor Baba Saheb Ambedkar Road, Parel, Mumbai, Maharashtra 400012"/>
+            <img class="loc mumloc" id="mulund" addr="mulund" src="images/map_ico.gif" style="width:2%; margin-left:-20%; margin-top:16%" title="mulund" near="Mahalaxmi Wines, Mulund,Shop no 6, Mahiv Shikar Society, L.B, Shastri Marg, Mulund West, Mumbai - 400080"/>
+            <img class="loc mumloc" id="vashi" addr="vashi" src="images/map_ico.gif" style="width:2%; margin-left:-19%; margin-top:38%" title="vashi" near="Manoj Wines , Vashi, 260, Ramodaya Mansion, Dr. Annie Beasant Road, Worli Mumbai - 400018"/>
+            <img class="loc mumloc" id="dadarwest" addr="Dadar west" src="images/map_ico.gif" style="width:2%; margin-left:-30%; margin-top:38.5%" title="Dadar west" near="Modern Wines, Shivaji Park, 1/377, Amarkunj, Veer Savarkar Marg, Opp Shivaji Park, Dadar West, Mumbai, Maharashtra 400028"/>
+            <img class="loc mumloc" id="colaba" addr="colaba " src="images/map_ico.gif" style="width:2%; margin-left:-32%; margin-top:50%" title="colaba" near="Rustom Wines, Colaba, Ground Floor, Chawla House, Wode House Road, Colaba, Mumbai, Maharashtra 400005"/>
+    		<img class="loc mumloc" id="cst" addr="cst" src="images/map_ico.gif" style="width:2%; margin-left:-30%; margin-top:47%" title="CST" near="Shah & Company, CST, C 1, Sitaram Building, Dr D N Road, Fort, Next To Crawford Market, Mumbai - 400001"/>
+            <img class="loc mumloc" id="mahalakshmi" addr="mahalakshmi" src="images/map_ico.gif" style="width:2%; margin-left:-31%; margin-top:40%" title="Mahalaxmi" near="Sona Wines, Laxmi Niwas Chs, N M Joshi Marg, Jacob Circle, Mahalaxmi, Mumbai -400011"/>
+        	<img class="loc mumloc" id="santacruzwest" addr="santacruz west" src="images/map_ico.gif" style="width:2%; margin-left:-31%; margin-top:28%" title="Santacruz west" near="Sunny Wines, Shah Bhimsi Gover, S V Rd, Santacruz West, Opp Khira Nagar, Mumbai - 400054"/>
+        	<img class="loc mumloc" id="goregaon" addr="goregaon" src="images/map_ico.gif" style="width:2%; margin-left:-31%; margin-top:21%" title="Goregaon" near="Swagat Wines, Goregaon, Shop No.01,C-45,Opp Jain Mandir, Mahatma Gandhi Road, Lokmanya Tilak Nagar, Goregaon West, Mumbai, Maharashtra 400104"/>
+            <img class="loc mumloc" id="thane" addr="thane west" src="images/map_ico.gif" style="width:2%; margin-left:-15%; margin-top:11.5%" title="Thane west" near="Living Liquidz, Viviana Mall, Ghodbandar Road, Manpada-Thane West, Near More Hyper Market, Thane - 400607, 95949 11960"/>
+            <img class="loc mumloc" id="santacruzeast" addr="santacruz east" src="images/map_ico.gif" style="width:2%; margin-left:-27%; margin-top:29%" title="Santacruz east" near="Living Liquidz, Manjarekar Wines, Chatrapati Shivaji Domestic Airport, Terminal 1B, Santacruz East, Mumbai, 022-30004000 $$ Living Liquidz, La Rani, Chatrapati Shivaji Domestic Airport, Terminal 1A, Santacruz East, Mumbai"/>
+        	<!-- MUMBAI PLACES ENDS HERE -->
+        
+        
+        	<!-- BANGALORE PLACES STARTS HERE -->
+        	<img class="loc banloc" id="yeshwantpura" addr="yeshwantpura" title="yeshwantpura" src="images/map_ico.gif" style="width:2%; margin-left:-32%; margin-top:11%" near="Naveen Wines, House No-2, 3rd Main Road, Near Yeshwanthpura Vegetable Market, Yeswanthpura, Bengaluru South -560022 " />
+            <img class="loc banloc" id="banashankari" addr="Banashankari" title="Banashankari" src="images/map_ico.gif" style="width:2%; margin-left:-31%; margin-top:19%" near="Slns Wine Paradise, No. 14, BDA Complex, Opposite HDFC ATM, Banashankari Stage II, Bengaluru, Karnataka 560070, 080-267 9544" />
+            <img class="loc banloc" id="bannerghatta" addr="Bannerghatta" title="Bannerghatta" src="images/map_ico.gif" style="width:2%; margin-left:-29.7%; margin-top:35%" near="Madhuloka Liquor Boutique, B.G road,No.3, ground Floor, Bilekahalli,Arekere Gate, Bannerghatta Main Road, Bangalore - 560 076, 080-42112300 $$ Madhuloka Liquor Boutique, Royal Meenakshi Mahal, No. 65, Hyper city, Bannerghatta Road, Bangalore - 560 076, 080-26430120" />
+            <img class="loc banloc" id="bannerghatta" addr="Bannerghatta" title="Bannerghatta" src="images/map_ico.gif" style="width:2%; margin-left:-29.7%; margin-top:35%" near="Madhuloka Liquor Boutique, B.G road,No.3, ground Floor, Bilekahalli,Arekere Gate, Bannerghatta Main Road, Bangalore - 560 076, 080-42112300 $$ Madhuloka Liquor Boutique, Royal Meenakshi Mahal, No. 65, Hyper city, Bannerghatta Road, Bangalore - 560 076, 080-26430120" />
+            <img class="loc banloc" id="basaveshwara" addr="Basaveshwara Nagar" title="Basaveshwara Nagar" src="images/map_ico.gif" style="width:2%; margin-left:-33.5%; margin-top:14%" near="Maruti Wines, No.301/A, 8th Main Road, 4th Block, 3rd Stage, Basaveshwara Nagar, Bangalore - 560079, 080-41226607" />
+            <img class="loc banloc" id="btmlayout" addr="BTM Layout" title="BTM Layout" src="images/map_ico.gif" style="width:2%; margin-left:-26%; margin-top:22%" near="Madhuloka Liquor Boutique, No.9,Ground Floor, 100 Feet Road,Silk Board Main Road, Btm Layout, Udupi Garden, Bangalore - 560076, 09900022090, 09900088994 $$ Madhuloka Liquor Boutique, BTM Outer Ring Road, No.9, G-Floor, 100ft. Main road,1st Phase, 2nd stage, BTM Layout, Bangalore - 560 076, 080-42198559" />
+            <img class="loc banloc" id="electroniccity" addr="Electronic City" title="Electronic City" src="images/map_ico.gif" style="width:2%; margin-left:-19.5%; margin-top:28.5%" near="My Spirits, No.51,Grnd Flr, Hosur Rd,Hosa Rd Junction,Singasandra, Electronic City, Bangalore - 560100, 080-49342919" />
+            <img class="loc banloc" id="gandhinagar" addr="Gandhi Nagar" title="Gandhi Nagar" src="images/map_ico.gif" style="width:2%; margin-left:-25.5%; margin-top:19.5%" near="Janata Bazar, K.G. Road, Gandhi Nagar, Bangalore - 560009, 080 - 23610801" />
+            <img class="loc banloc" id="ganganagar" addr="Ganganagar" title="Ganganagar" src="images/map_ico.gif" style="width:2%; margin-left:-26.5%; margin-top:11%" near="Karnataka Spirit World, No.5 L A V Arcade, 12th Cross,Bellary Road, Ganganagar, Bangalore - 560032, 080-23532599, 099028 70097" />
+            <img class="loc banloc" id="hsrlayout" addr="H.S.R. Layout" title="H.S.R. Layout" src="images/map_ico.gif" style="width:2%; margin-left:-24%; margin-top:22%" near="Madhuloka Liquor Boutique, 459, Teacher’s Colony, Ring Road, H.S.R. Layout,Landmark: opp.fernhill garden, Bangalore - 560 034, 080-25505656, 080-25525353" />
+            <img class="loc banloc" id="indiranagar" addr="Indiranagar" title="Indiranagar" src="images/map_ico.gif" style="width:2%; margin-left:-22.5%; margin-top:16%" near="Drops 2, No.299, 100 Feet Road, 1st Stage, Indiranagar, Near KFC, Bangalore - 560038, 080-41268070 $$ Winery Wines, No.918, 9th Main, HAL 2nd Stage-Indiranagar, Bangalore - 560008, 080-25280346, 099808 46424" />
+            <img class="loc banloc" id="kalyannagar" addr="Kalyan Nagar" title="Kalyan Nagar" src="images/map_ico.gif" style="width:2%; margin-left:-24%; margin-top:11%" near="Spirit Palace, 66, RR Plaza, Kammanahalli Main Rd ,Kalyan Nagar, Bangalore. Karnataka, 080-25446633 $$ My Spirits New, No. 919, HRBR Layout, 1st Block, Kalyan Nagar, Opp. Babusapalya Bus Stop, ORR, Bangalore - 560043, 080-49159973 $$ Baghini Spiritz, No.2075, Supraja Building, 2nd Block, 4th Cross, Kalyan Nagar, Hrbr Layout, Near Axis Bank, Bangalore - 560043, 080-42105170, 09886847645, 8892180777" />
+            <img class="loc banloc" id="kasturinagar" addr="Kasturinagar" title="Kasturinagar" src="images/map_ico.gif" style="width:2%; margin-left:-22.5%; margin-top:14%" near="Fussion Wines,  2nd Main Road, East of NGEF Layout, Kasturi Nagar, Bengaluru, Karnataka 560043" />
+            <img class="loc banloc" id="kodigehalli" addr="Kodigehalli" title="Kodigehalli" src="images/map_ico.gif" style="width:2%; margin-left:-28%; margin-top:7.5%" near="MP Wine World, Kodigehalli Main Road, Near-Sub Register Office, Sahakara Nagar, Bengaluru, Karnataka 560092, 080 2362 7444" />
+            <img class="loc banloc" id="koramangala" addr="Koramangala" title="Koramangala" src="images/map_ico.gif" style="width:2%; margin-left:-24%; margin-top:20%" near="Madhuloka Liquor Boutique, Star Bazaar, H.M. Vibha Towers, Near Forum Mall, Adugodi Road, Koramangala, Bangalore - 560 029, 080-65790547 $$ Madhuloka Liquor Boutique, # 144 KHB Colony, 5th Block, 60 feet Road, Koramangala, Near Anadh Sweets, Bangalore - 560 034, 080-41606990" />
+            <img class="loc banloc" id="malleswaram" addr="Malleswaram" title="Malleswaram" src="images/map_ico.gif" style="width:2%; margin-left:-30.5%; margin-top:13.5%" near="Orange Spirit Zone, No-48, 2nd Main Road,Vyalikaval, Malleswaram, Opposite Namdaris Fresh, Bangalore - 560003, 080-66837220 $$ Madhuloka Liquor Boutique, Orion Mall, Shop No. 28-29, U.G Floor, Star Bazaar,Orion Mall, 26/1 Dr. Rajkumar Road, Bangalore - 560 055, 080-22682120" />
+            <img class="loc banloc" id="marathalli" addr="Marathalli" title="Marathalli" src="images/map_ico.gif" style="width:2%; margin-left:-18.5%; margin-top:17.3%" near="House of Spirits, 135, Outer ring road, Varthur Hobli, Marathahalli, 080 42197058" />
+            <img class="loc banloc" id="mysoreroad" addr="Mysore Road" title="Mysore Road" src="images/map_ico.gif" style="width:2%; margin-left:-35%; margin-top:20%" near="Madhuloka Liquor Boutique, # 18/2, F-11, 1st Floor Gopalan Arcade, Raja Rajeshwari Nagar, Mysore Road, Bangalore - 560 098, 080-28603696, 080-28603595, 080-28602393" />
+            <img class="loc banloc" id="nagarbhavi" addr="Nagarbhavi" title="Nagarbhavi" src="images/map_ico.gif" style="width:2%; margin-left:-35%; margin-top:17.5%" near="Wholsale Wines, No.617, Vinayaka Layout, Nagarbhavi, 2nd Stage, Bangalore - 560072, 080-66536374" />
+            <img class="loc banloc" id="newbelroad" addr="New BEL road" title="New BEL road" src="images/map_ico.gif" style="width:2%; margin-left:-31%; margin-top:10%" near="Drops 1, No 2, Rayhana Complex, New BEL road, Opposite To Corporation Bank, Bangalore - 560054, 080-41748014, 07259038703 $$ Globe Spirits, No.54, 80 Feet Road, New Bel Road, Opposite M S Ramaiah Hospital, Bangalore - 560054, 080-49358085" />
+            <img class="loc banloc" id="outerringroad" addr="Outer Ring Road" title="Outer Ring Road" src="images/map_ico.gif" style="width:2%; margin-left:-20%; margin-top:20.5%" near="Madhuloka Liquor Boutique, 6/4, Outer Ring Road, Above Axis bank, Near Bellandur, Amblipur, Bangalore - 560 102, 080-41607977, 080-41607978, 080-25740444, 080-25740555, 080-25740456" />
+            <img class="loc banloc" id="padmanabhanagar" addr="Padmanabhanagar" title="Padmanabhanagar" src="images/map_ico.gif" style="width:2%; margin-left:-31%; margin-top:22%" near="Wines World, 6, Subramanya Pura Road, Chikkalsandra, Ankappa Layout, Padmanabhanagar, Bengaluru, Karnataka 560061, " />
+            <img class="loc banloc" id="residencyroad" addr="Residency Road" title="Residency Road" src="images/map_ico.gif" style="width:2%; margin-left:-23.5%; margin-top:17%" near="Sams Wines, 10-A, Residency Road, FM Cariappa Road, Shanthala Nagar, Ashok Nagar, Bengaluru, Karnataka 560025, 098440 70578 $$ Wine Yard, Devatha Plaza, Residency Road, Bangalore, 080-22231043, 080-22213492 $$ Madhuloka Liquor Boutique, Bangalore Club, No. 10, Shopping Area of Bangalore Club, Field Marshal K.M.Cariappa Road, Residency Road, Bangalore - 560 025, 080-66060000" />
+            <img class="loc banloc" id="sarjapura" addr="Sarjapura" title="Sarjapura" src="images/map_ico.gif" style="width:2%; margin-left:-13.5%; margin-top:25%" near="Madhuloka Liquor Boutique, No 723/5 MGR complex, 1st floor,Kaikondarahalli, Sarjapura main Road, Bangalore - 560 048, 080-65791564" />
+            <img class="loc banloc" id="seshadripuram" addr="Seshadripuram" title="Seshadripuram" src="images/map_ico.gif" style="width:2%; margin-left:-30.5%; margin-top:15.5%" near="Swastik Wines, 1st Main, Seshadripuram Main Road, Sripuram, Seshadripuram, Bengaluru, Karnataka 560020, 080-45320265, 098806 55014" />
+            <img class="loc banloc" id="seshadripuram" addr="Seshadripuram" title="Seshadripuram" src="images/map_ico.gif" style="width:2%; margin-left:-30.5%; margin-top:15.5%" near="Swastik Wines, 1st Main, Seshadripuram Main Road, Sripuram, Seshadripuram, Bengaluru, Karnataka 560020, 080-45320265, 098806 55014" />
+            <img class="loc banloc" id="stmarksroad" addr="St Marks Road" title="St Marks Road" src="images/map_ico.gif" style="width:2%; margin-left:-26%; margin-top:16%" near="Dewar Wines, 25 St Marks Road,, Opp. State Bank India, Shanthala Nagar, Bengaluru, Karnataka 560001, 080 2221 4945" />
+            <img class="loc banloc" id="vittalmallyaroad" addr="Vittal Mallya Road" title="Vittal Mallya Road" src="images/map_ico.gif" style="width:2%; margin-left:-27%; margin-top:15.5%" near="Madhuloka Liquor Boutique, UB City, #20, Unit No. 2nd Floor,Canberra Block, UB City, Vittal Mallya Road, Bangalore - 560 001, 080-41653220" />
+            <img class="loc banloc" id="waltonroad" addr="Walton Road" title="Walton Road" src="images/map_ico.gif" style="width:2%; margin-left:-24.5%; margin-top:16%" near="Cyber Wines, No.7, Walton Road, Walton Road, Next To Ub Factory And Coffee Day, Bengaluru, Karnataka 560001, 080 2299 7466" />
+            <img class="loc banloc" id="whitefield" addr="Whitefield" title="Whitefield" src="images/map_ico.gif" style="width:2%; margin-left:-13.5%; margin-top:16%" near="Madhuloka Liquor Boutique, No.5 A, III Floor, Cosmos Mall, ITPL Main Road, Brookefields, Bangalore - 560037, 080-28543838, 080-28543939, 080-41655838 $$ Madhuloka Liquor Boutique, No. C113, 1st floor, The Forum Value Mall, Whitefield Road, Whitefield, Bangalore - 560 066, 080-40961172, 080-40961173 $$ Madhuloka Liquor Boutique, Phoenix Mall, Unit No. G-18, UG Floor, Phoenix market City,Devasandra Industrial Area, Whitefield Road, Bangalore - 560 048, 080-67266184 $$ Madhuloka Liquor Boutique, Inorbit Mall, L.G. Floor, Hyper City Retail (india),No. 75, EPIP Area, Inorbit Mall, ITPL Main Road, Whitefield, Bangalore - 560 066, 080-28029050" />
+            <!-- BANGALORE PLACES ENDS HERE -->
+            
+            
+            
+            <!-- PUNE PLACES STARTS HERE -->
+            <img class="loc puneloc" id="wakad" addr="wakad" src="images/map_ico.gif" style="width:2%; margin-left:-26%; margin-top:11%" title="wakad" near="Sakee Wines, Wakad Rd, Kaspate Wasti, Wakad, Pimpri-Chinchwad, Maharashtra 411057"/>
+            <img class="loc puneloc" id="hinjewadi" addr="hinjewadi" title="hinjewadi" near="Sangram Wines, Saint Tukaram Wakad Road, Hinjewadi, Hinjewadi, Pune District, Pune, Maharashtra $$ Yash Wines, Hinjewadi" src="images/map_ico.gif" style="width:2%; margin-left:-27.5%; margin-top:12%"/>
+            <img class="loc puneloc" id="aundh" addr="aundh" title="aundh" near="GSP Wines, Shop No 6 Shaymal Apartment, Anand Park, ITI Baner Road, Aundh, Pune - 411007 $$ Sunny Wines, Shop No 2 Citai Park, D P Road, Aundh, Opposite Shiv Sagar Resturant, Pune - 411007, 020-41517156" src="images/map_ico.gif" style="width:2%; margin-left:-30%; margin-top:10%" title="Yash Wines, Hinjewadi"/>
+            <img class="loc puneloc" id="baner" addr="baner" title="baner" near="Cellars Wines, Shop No 4 & 5 Capital Tower Complex, Capital tower , Wakad Road, Wakad, Pune - 411057 $$ Aparna Wines, Shop No. 2, Opp State Bank Of Mysore Balewadi Phata, Baner Pune, Maharashtra 411045 $$ Ruchira Wines, Survery no 2/9 Jangli maharaj road baner " src="images/map_ico.gif" style="width:2%; margin-left:-34%; margin-top:9.5%" title="Shop No. 2, Opp State Bank Of Mysore Balewadi Phata, Baner Pune, Maharashtra 411045"/>
+             <img class="loc puneloc" id="viman" addr="viman nagar" title="viman nagar" near="Wine Turminal, Konark Arcade Building, Near Datta Mandir Chowk, Nr Symbiosis Clg Road, Viman Nagar, Pune - 411014" src="images/map_ico.gif" style="width:2%; margin-left:-13%; margin-top:8.3%"/>
+            <img class="loc puneloc" id="kondhwa" addr="kondhwa" title="kondhwa" near="Archna Wines, Allied Heights, Salunkhe Vihar Road, Kondhwa, PMC- 411048, Maharashtra $$ M.J Wines, 1245/2, E Ward, Rajaram Road, M G Mall, Batta Builder, Kolhapur - 416008, 094050 42107" src="images/map_ico.gif" style="width:2%; margin-left:-16.5%; margin-top:22.5%"/>
+            <img class="loc puneloc" id="wanwadi" addr="wanwadi" title="wanwadi" near="Diamond Wines, Shop No. 13, Nancy Tower, Wanwadi, Pune - 411040Land Mark: Opposite Kedari Petrol Pump" src="images/map_ico.gif" style="width:2%; margin-left:-15%; margin-top:17%"/>
+            <img class="loc puneloc" id="kalyani" addr="kalyani nagar" title="kalyani nagar" near="Infinity Wines, Kalyani Nagar, Pune - 411014" src="images/map_ico.gif" style="width:2%; margin-left:-17.5%; margin-top:12%"/>
+            <img class="loc puneloc" id="hadapsar" addr="hadapsar" title="hadapsar" near="Mahek Wine, Mundhwa-Kharadi Rd, Hadapsar, Pune, Maharashtra 411028" src="images/map_ico.gif" style="width:2%; margin-left:-11%; margin-top:17.5%"/>
+            <img class="loc puneloc" id="kharadi" addr="kharadi" title="kharadi" near="J.K. Liquor, Survey.No:7/3,Opposite Rakshak Nagar Society Phase -1, Next To Gurukripa Building, Kharadi Rd, Rakshak Nagar, Kharadi, Pune, Maharashtra 411014" src="images/map_ico.gif" style="width:2%; margin-left:-8%; margin-top:10.5%"/>
+            <img class="loc puneloc" id="pimpri" addr="pimpri" title="pimpri" near="Relax Wines, S.no 1, Shivar chowk, Shivar garden rd, Pimple Saudagar, Pune - 411027 $$ Pratham Wines, Shop No 4 & 5 Capital Tower Complex, Wakad Road, Pimpri, 9637545002 $$ Kaviraj Wines, Akrudi Main Road, Ganga Nagar, Akurdi, Pimpri-Chinchwad, Maharashtra 411035, 020-27653278, 093250 96828" src="images/map_ico.gif" style="width:2%; margin-left:-25%; margin-top:10%"/>
+            <img class="loc puneloc" id="marketyard" addr="Market Yard" title="Market Yard" near="Patil Wines, Shop No 21 Ganesh Market, Market Yard Road, Market Yard, Gangadham Chowk Near Shirvi Bandhu Mithaiwale" src="images/map_ico.gif" style="width:2%; margin-left:-19.5%; margin-top:20.5%"/>
+            <img class="loc puneloc" id="gultekdi" addr="Gultekdi" title="Gultekdi" near="Viraj Wines, 2 Apssara Apt, Gultekadi Rd, Gultekdi, Dais Plot, Pune - 411037, 020-41517418" src="images/map_ico.gif" style="width:2%; margin-left:-20.5%; margin-top:20.5%"/>
+         	<img class="loc puneloc" id="camp" addr="Camp" title="Camp" near="Dorabjee & Co. Pvt. Ltd., Moledina Road, Camp, 020-26052882, 020-40110000" src="images/map_ico.gif" style="width:2%; margin-left:-17.5%; margin-top:17.5%"/>
+            <img class="loc puneloc" id="bundgarden" addr="Bund Garden" title="Bund Garden" near="Mayur Wines, Laxmi Narayan Park, Bund Garden, Pune GPO, Pune - 411001, 020-26129707" src="images/map_ico.gif" style="width:2%; margin-left:-18.5%; margin-top:12%"/>
+            <!-- PUNE PLACES ENDS HERE -->
+            
+            
+            <!-- GOA PLACES STARTS HERE -->
+            <img class="loc goaloc" id="benaulim" addr="Benaulim" title="Benaulim" near="Patson Wines, Ground Floor, Manzil Vaddo, Benaulim Beach Road, Benaulim, Near Maria Hall, Goa - 403716, 91 83202770614" src="images/map_ico.gif" style="width:2%; margin-left:-25.5%; margin-top:31%"/>
+            <img class="loc goaloc" id="calangute" addr="Calangute" title="Calangute" near="Atmaram Wines, Khobra Waddo, Calangute, Goa 403516, 096573 60552 $$ Choice of wine, 5/156 B, Unit S - 4, Near Tourist Hotel, Umta Vaddo, Arpora, Goa 403516, 0832-228 2255 $$ Coutinho, Calangute-Baga Rd, Before Brittos Bar & Restaurant, Baga Beach Calangute, Bardez, Baga, Goa, 403516, 0832-227 5552 $$ Dhruv wine, Chogm Rd, Naika Vaddo, Bardez, Calangute, Goa 403516, 098221 33501 $$ Jaiswal wine store, Calangute - Anjuna Rd, Near Nizmar Resort, Naika Vaddo, Bardez, Arpora, Goa 403516, 096651 46785 $$ Liquor Unlimited, S-6, Casa Natasha, Next To Kamat Holiday Homes, Opp. Corporation Bank, Gaura Vaddo, Arpora, Goa, 098221 79711 $$ Rose Enterprise, Calangute, Goa 403516, 0832-651 0585 $$ VK Wine Store, Umta Vaddo, Calangute, Goa 403516, 098221 43614" src="images/map_ico.gif" style="width:2%; margin-left:-35%; margin-top:14.5%"/>
+            <img class="loc goaloc" id="candolim" addr="Candolim" title="Candolim" near="Delfino's Supermarket, Near Alor Grande, Near Health Centre, Candolim, Goa 403515, 0832-248 9971 $$ Newtons Supermarket, Aguada - Siolim Rd, Sequeria Vaddo, Candolim, Goa 403515, 0832-248 9056 $$ VIC-3 Shoppe, Aguada - Siolim Rd, Next To O Hotel Casino, Candolim, Goa 403515, 098226 51185" src="images/map_ico.gif" style="width:2%; margin-left:-35%; margin-top:16.5%"/>
+            <img class="loc goaloc" id="mandrem" addr="Mandrem" title="Mandrem" near="" src="images/map_ico.gif" style="width:2%; margin-left:-37%; margin-top:9.5%"/>
+            <img class="loc goaloc" id="mapusa" addr="Mapusa" title="Mapusa" near="Big Joe, Shop No. 18/19, Mapusa Trade Center, Near Royal Foods, Mapusa, Goa, 403507, 0832-225 3018 $$ J. K. wines, Shop No 155/ 156, Municipal Market, Mapusa, Opposite Sirsart Building, Goa - 403507, 0832-2253123, 098504 77778 $$ K. B. Wine, Shop No.29 Market Rd, Opposite Taxi Stand, Morod, Mapusa, Goa 403507‎, 099239 44999" src="images/map_ico.gif" style="width:2%; margin-left:-33%; margin-top:11%"/>
+            <img class="loc goaloc" id="margao" addr="Margao" title="Margao" near="Etak Corporation, Shop No 12 New Market, Margao, Goa - 403601, 0832-2731710" src="images/map_ico.gif" style="width:2%; margin-left:-23.5%; margin-top:28%"/>
+            <img class="loc goaloc" id="palolem" addr="Palolem" title="Palolem" near="Premdatta Wines, Palolem Beach Road, Near Cross Road, Canacona-403702; 0832-2643350 $$ Red Rose Wines, Dr. Pundlik Gaitonde Road, Palolem, Canacona, Goa, 0832-264 3060" src="images/map_ico.gif" style="width:2%; margin-left:-26%; margin-top:34.5%"/>
+            <img class="loc goaloc" id="panjim" addr="Panjim" title="Panjim" near="Cheer wine, 18th June Road, Panaji, Goa, 0832-2426612 $$ Diamond Wines,  6, Orion Building, General Bernardo Guedes Rd, Opposite Kismet Hotel,Municipal Market, Ozari, Panjim, Goa 403001, 0832-222 5709 $$ House Of Wines, Shop No 7/B,Victor Palace, Patto Road, Panjim, Near Ambedkar Garden,Patto, Goa - 403001, 098221 49884 $$ Kamat Meghamart,  Model Marine Castle, Borchem Bhat, Caranzalem, Panjim, Goa, 0832-246 1004 $$ Laljee devraj, Shop No 12 Magnum Centre, M G Road, Panjim, Near Delhi Darbar, Goa - 403001, 0832-2230402, 098221 03222 $$ Laxmi wine, Shop No: 5, Manguirish Apartments, 18th June Rd, Ozari, Panjim, Goa, 0832-222 8384 $$ Parekh Store, Mun Building, Rudeormuz Road, Near Cine National, Panaji Goa, 0832-242 7957 $$ Raviraj Wines, Shop No. 10, Orion Building, Caetano de Albuquerque Rd, Near Hotel Delmon, Ozari, Panjim, Goa 403001, 0832-222 7973 $$ Tom Wines, Shop No. 1 & 2, Orion Building, General Bernardo Guedes Rd, Near Municipal Market, Ozari, Panjim, Goa 403001, 0832-242 0495 $$ U.P Traders, Shop No 11, Durga Chamber, 18th June Road, Panaji, Goa, 403001, 0832-242 6744" src="images/map_ico.gif" style="width:2%; margin-left:-33%; margin-top:18.5%"/>
+            <img class="loc goaloc" id="porvorim" addr="Porvorim" title="Porvorim" near="Wines Palace, Shop No 8/9 Sapana Habitat, Porvorim, Next To Angel Resort, Goa - 403501, 0832-6639299 $$ S.K Daruwala,  Shop No.1 & 2, Ishdeep Building, Chogm Road, Porvorim, Pilerne, Goa 403501, 0832-6983 82752" src="images/map_ico.gif" style="width:2%; margin-left:-32%; margin-top:17.5%"/>
+            <img class="loc goaloc" id="siolim" addr="Siolim" title="Siolim" near="Selmel Wines, Shop No 10 St Anthony Community Centre, Siolim, Near St Anthony Church, Football Ground, Goa - 403517, 0832-6453357, 098225 87393 $$ Veenisha Wines" src="images/map_ico.gif" style="width:2%; margin-left:-36%; margin-top:10%"/>
+            <img class="loc goaloc" id="stcruz" addr="stcruz" title="stcruz" near="Golden wine, Shell top inn, St cruz road, Panjim, Nearhungry hatz, Goa - 403001, 099706 60554" src="images/map_ico.gif" style="width:2%; margin-left:-32%; margin-top:19.5%"/>
+            <img class="loc goaloc" id="vagator" addr="Vagator" title="Vagator" near="Oxford Arcade, Demello Vaddo, Anjuna, Goa 403509, 0832-227 3436 $$ Savitri Wines, Mapusa – Anjuna - Chapora, Deul Wada, Chapora Corner, Anjuna, Bardez, Chapora, Goa, 403509, 098221 64645" src="images/map_ico.gif" style="width:2%; margin-left:-37%; margin-top:11.3%"/>
+            <!-- GOA PLACES ENDS HERE -->
+            
+            
+            
+        </div>
+        <script>
+			$(document).ready(function(){
+				var mapht=$('.one').height()+$('.two').height()+$('.two_1').height()+$('.four').height()+$('.four_1').height()+$('.four_2').height()+$('.three').height()+$('.six').height()+$('.six_1').height()+$('.six_11').height()+$('.six_2').height()+100+$('.five').height()-110;
+				$('.places').change(function(e) {
+					tab=$('.tb1').remove();
+					$('.loc').css({display:'none'});
+                   $('html, body').animate({scrollTop:mapht},1000);
+				   var sel=$('.places').val();
+				   var mum_array=[];
+				   var ban_array=[];
+				   var pun_array=[];
+				   var goa_array=[];
+				   var tab='';
+				   if(sel=='mumbai')
+				   {
+					   $('.mumloc').each(function(index, element)
+					   {
+						   mum_array=$(this).attr('id');
+						   mum_near=$(this).attr('near');
+						   $('#'+mum_array).fadeIn();
+					   });
+					   $('.mumloc').click(function(){
+						  	str=$(this).attr('near');
+							res=str.split('$$');
+							var n=res.length;
+							tab=$('.tb1').remove();
+							for(var i=0; i < n; i++)
+							{
+								
+								tab="<tr class='tb1'><td style='width:90%; border-bottom:1px solid #fff; min-height:30px; padding:10px;'>"+res[i]+"</td><td style='width:10%; text-align:center'><img class='via_sms' src='images/mob_ico.png' style='width:60%;' title='get address via sms'/></td></tr>";
+								
+								$('.mapadd table#addrss_table').append(tab);
+							}
+						})
+				   }
+				   if(sel=='bangalore')
+				   {
+					   $('.banloc').each(function() {
+						   ban_array=$(this).attr('id');
+						   ban_near=$(this).attr('near');
+						   $('#'+ban_array).fadeIn();
+					   });
+					    $('.banloc').click(function(){
+						  	str=$(this).attr('near');
+							res=str.split('$$');
+							var n=res.length;
+							tab=$('.tb1').remove();
+							for(var i=0; i < n; i++)
+							{
+								
+								tab="<tr class='tb1'><td style='width:90%; border-bottom:1px solid #fff; min-height:30px; padding:10px;'>"+res[i]+"</td><td style='width:10%; text-align:center'><img class='via_sms' src='images/mob_ico.png' style='width:60%;' title='get address via sms'/></td></tr>";
+								
+								$('.mapadd table#addrss_table').append(tab);
+							}
+						})
+				   }
+				   if(sel=='pune')
+				   {
+					   $('.puneloc').each(function() {
+						   pun_array=$(this).attr('id');
+						   pun_near=$(this).attr('near');
+						   $('#'+pun_array).fadeIn();
+					   });
+					    $('.puneloc').click(function(){
+						  	str=$(this).attr('near');
+							res=str.split('$$');
+							var n=res.length;
+							tab=$('.tb1').remove();
+							for(var i=0; i < n; i++)
+							{
+								
+								tab="<tr class='tb1'><td style='width:90%; border-bottom:1px solid #fff; min-height:30px; padding:10px;'>"+res[i]+"</td><td style='width:10%; text-align:center'><img class='via_sms' src='images/mob_ico.png' style='width:60%;' title='get address via sms'/></td></tr>";
+								
+								$('.mapadd table#addrss_table').append(tab);
+							}
+						})
+				   }
+				   if(sel=='goa')
+				   {
+					   $('.goaloc').each(function(index, element)
+					   {
+						   goa_array=$(this).attr('id');
+						   goa_near=$(this).attr('near');
+						   $('#'+goa_array).fadeIn();
+					   });
+					   $('.goaloc').click(function(){
+						  	str=$(this).attr('near');
+							res=str.split('$$');
+							var n=res.length;
+							tab=$('.tb1').remove();
+							for(var i=0; i < n; i++)
+							{
+								
+								tab="<tr class='tb1'><td style='width:90%; border-bottom:1px solid #fff; min-height:30px; padding:10px;'>"+res[i]+"</td><td style='width:10%; text-align:center'><img class='via_sms' src='images/mob_ico.png' style='width:60%;' title='get address via sms'/></td></tr>";
+								
+								$('.mapadd table#addrss_table').append(tab);
+							}
+						})
+				   }
+				   
+                });
+			});
+       </script>
+       <script>
+     $(function () {
+        $('.loc').tooltip({
+			position: {
+				my: "center bottom", 
+				at: "center top", 
+			},
+		});
+			});
+			
+			$(document).ready(function(e) {
+                $('#terms').click(function(){
+					$('#termsbk').fadeIn('slow');
+					$('#termsbox').slideDown('slow');
+				})
+				$('#privacy').click(function(){
+					$('#privacybk').fadeIn('slow');
+					$('#privacybox').slideDown('slow');
+				})
+				$('.close').click(function(){
+					$('#termsbox,#privacybox').slideUp('slow');
+					$('#termsbk,#privacybk').fadeOut('slow')
+				})
+            });
+      </script> 
+      
+			<span id="terms" style="position:absolute; width:50%; font-family:hvd_comic_serif_proregular;font-size:1.2vw; text-align:right; bottom:4vh; font-weight:400; cursor:pointer">Terms and conditions | </span>
+            
+            <span id="privacy" style="position:absolute; width:50%; left:50%; font-family:hvd_comic_serif_proregular;font-size:1.2vw; text-align:left; bottom:4vh; font-weight:400; cursor:pointer;">&nbsp; Privacy policy</span>
+            
+            
+            <a href="http://www.steadceler.com/" target="_blank" style="text-decoration:none; color:#A0A0A4"><span id="steadceler" style="position:absolute; width:100%; text-align:center; bottom:5px; font-family:Alegreya;font-size:.8vw; font-weight:400; cursor:pointer">DEVELOPED BY STEADCELER</span></a>
+        
+        <div id="termsbk" style="width:100vw; height:100vh; position:fixed; background:rgba(160,160,164,.8); top:0; z-index:9; display:none">
+          <div id="termsbox" style="position:fixed; top:55px; left:5vw; width:90vw; height:90vh; background:#333;color:#fff; overflow-y:scroll; overflow-x:hidden; z-index:10; display:none; font-family: 'Raleway', sans-serif; line-height:20px;">
+          	<div class="close" style="position:fixed; right:7vw; top:58px; z-index:11; cursor:pointer; color:#fff;">&#215;</div>
+            	
+             <h3 style="text-align:center; margin-top:5vh">WEBSITE TERMS AND CONDITIONS </h3>
+             <p style="width:90%; margin-left:5%; margin-top:5vh; text-align:justify">
+<?php echo nl2br('The website www.krutovodka.in and its contents (collectively the "Website") is owned and operated by Mir SpiritsPrivate Limited, a company incorporated as per the provisions of the Indian Companies Act, 1956 and having its registered office at Vasaikar House, 296 Cadell Road, Dadar West, Mumbai 400028 ("Mir Spirits"). Your access or useof the Website shall be governed by the following terms andconditions, including any and all amendments thereto ("Terms & Conditions") and shall be conditional to  your acceptance of these Terms & Conditions, including our Privacy Policy located at [www.krutovodka.in],which is incorporated in these Terms & Conditions by reference. Mir Spirits may, at itssole discretion, modify or amend these Terms & Conditions from time to time without further notification to you. These modified Terms & Conditions shall come into effect immediately once posted on the Website. Your continued use of the Website shall be deemed to be your acceptance of these Terms & Conditions, including the modified Terms & Conditions and the said Privacy Policy.
+ ')?>
+            <br><br>
+			<span>Please read these Terms & Conditions carefully before you use/accessthe Website. </span>
+            <br><br>
+            <span style="width:100%; float:left; font-weight:600">1. Eligibility. </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                 The website www.krutovodka.in and its contents (collectively the "Website") is owned and operated by Mir SpiritsPrivate Limited, a company incorporated as per the provisions of the Indian Companies Act, 1956 and having its registered office at Vasaikar House, 296 Cadell Road, Dadar West, Mumbai 400028 ("Mir Spirits"). Your access or useof the Website shall be governed by the following terms andconditions, including any and all amendments thereto ("Terms & Conditions")
+                </li>
+                <br>
+                <li>
+                    By accessing/using the Website you acknowledge, represent and warrant that you (i) are eligible to access/use the Website according to the aforesaid criteria, (ii) have read and understood all of the Terms & Conditions and Privacy Policy and agree to be legally bound by them, and (iii) have all right, authority and capacity to enter into these Terms & Conditions and to abide by all of the terms thereof, including the Privacy Policy.
+                </li>
+                <br>
+                <li>
+                    Mir Spiritsreserves the right to restrict or terminate your access to the Website or any of its pages thereof, if you violate these Terms & Conditions, or if you use the Website whether intentionally or inadvertently to commit, directly or indirectly, any criminal or unlawful act or activity.
+                </li>
+                <br><br>
+            </ul>
+            
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">2. Intellectual Property Rights and Useof Website Content.</span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                 The Website is subject to copyright under Indian laws and under international treaties. The Website may also include registered and unregistered trademarks. Unless otherwise stated, Mir Spiritsis the owner and/or authorized user of all names, domain names, trademarks, service marks, design marks, patents, copyrights, database rights and all other intellectual property appearing on the Website. Except for the limited purpose of accessing or using the Website for your personal and non-commercial use or as otherwise indicated on the Website or these Terms & Conditions, you shall not copy, reproduce, communicate to the public, adapt, transfer, translate, modify, distribute or store any of the contents of the Website, or make available to any personor create derivative works of such content, whether commercial or otherwise,or incorporate any part of the Website into any other website or other form of media without Mir Spirits’written consent.
+                </li>
+                <br>
+                <li>
+                    Your access to the Website does not constitute in any manner whatsoever nor creates any license or any other title or right of whatsoever nature to the use of the name, domain name, trademarks, copyrights or any other intellectual property of ours and/or of our licensors or of any other party contained on or linked to the Website. 
+                </li>
+                <br>
+                <li>
+                    Mir Spiritsmay allow its users with the facility to post certain content, information and/or materials onor from the Website subject to such content being posted responsibly and reliably and upon prior approval from Mir Spirits.  Permission to post content, material or information is not to be construed as that recommended or endorsed by Mir Spirits.   
+                </li>
+                <br><br>
+            </ul>
+            
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">3. Disclaimer of Warranties and Limitation of Liability. </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                 YOUR USE OF THIS WEBSITE IS AT YOUR OWN RISK. THIS WEBSITE IS PROVIDED ON AN "AS IS" BASIS. EXCEPT AS EXPRESSLY REQUIRED BY APPLICABLE LAW, MIR SPIRITS MAKES NO REPRESENTATIONS OR WARRANTIES REGARDING THE ACCURACY, RELIABILITY, USEFULNESS OR COMPLETENESS OF THIS WEBSITE OR ANY CONTENT OF ANY OTHER SITE LINKED TO OR FROM THIS WEBSITE. MIR SPIRITS MAY MAKE IMPROVEMENTS AND/OR CHANGES IN THE WEBSITE, PRODUCTS, SERVICES OR FEATURES THEREIN AT ANY TIME. MIR SPIRITS HAS NO DUTY TO UPDATE THIS WEBSITE OR ANY CONTENT THEREOF AND IT SHALL NOT BE LIABLE FOR ANY FAILURE TO UPDATE SUCH INFORMATION. TO THE MAXIMUM EXTENT PERMISSIBLE BY APPLICABLE LAW, MIR SPIRITS DISCLAIMSANY AND ALL WARRANTIES, EXPRESSED OR IMPLIED, INCLUDING WITHOUT LIMITATION WARRANTIES OF NON-INFRINGEMENT, QUALITY, PERFORMANCE, MERCHANTABILITY, SECURITY, AND ACCURACY. FURTHER, MIR SPIRITSDOES NOT WARRANT THAT THIS WEBSITE OR THE SERVER AND ACCOMPANYING INFRASTRUCTURE THAT MAKES IT AVAILABLE IS OR WILL ALWAYS BEFREE OF COMPUTER VIRUSES.
+                </li>
+                <br>
+                <li>
+                    YOU AGREE THAT MIR SPIRITSAND ITSSUBSIDIARIES, AFFILIATES AND ANY OF ITS OFFICERS, DIRECTORS, EMPLOYEES, CONSULTANTS OR AGENTS, WILL NOT BE LIABLE, WHETHER IN CONTRACT, TORT, STRICT LIABILITY OR OTHERWISE, FOR ANY INDIRECT, PUNITIVE, SPECIAL, CONSEQUENTIAL OR INCIDENTAL DAMAGES (INCLUDING WITHOUT LIMITATION LOST PROFITS, LOSS OF BUSINESS, LOSS OF GOODWILL, COST OF PROCURING SUBSTITUTE PRODUCTS OR SERVICES OR LOST OPPORTUNITY) ARISING OUT OF OR IN CONNECTION WITH THE USE OF THIS WEBSITE OR ANYOTHER LINKED SITE, OR WITH THE DELAY OR INABILITY TO USE THE WEBSITE OR ANY LINKED SITE, WHETHER SUCH LOSS  OR DAMAGE ARISES FROM MIR SPIRITS’ NEGLIGENCE OR OTHERWISE AND EVEN IF MIR SPIRITSIS EXPRESSLY INFORMED OF THE POSSIBILITY OF SUCH LOSSES AND DAMAGES. THIS LIMITATION OF LIABILITY INCLUDES, BUT IS NOT LIMITED TO, THE 
+TRANSMISSION OF ANY VIRUSES WHICH MAY INFECT A USER'S EQUIPMENT, FAILURE OF MECHANICAL OR ELECTRONIC EQUIPMENT OR COMMUNICATION LINES, TELEPHONE OR OTHER INTERCONNECT PROBLEMS, UNAUTHORIZED ACCESS, THEFT, OPERATOR ERRORS, OR ANY FORCE MAJEURE EVENT. MIR SPIRITS CANNOT AND DOES NOT GUARANTEE CONTINUOUS, UNINTERRUPTED, ERROR-FREE OR SECURE ACCESS TO THE WEBSITE. YOU ARE AWARE THAT TECHNICAL DOWNTIMES AND MALFUNCTIONS OF THIS WEBSITE MAY OCCUR AND THAT THE WEBSITE MAY BE UNAVAILABLE FROM TIME TO TIME FOR TECHNICAL REASONS. 
+                </li>
+                <br><br>
+            </ul>
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">4. Indemnification.  </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                 You agree to indemnify, defend and hold harmless Mir Spirits, its subsidiaries and affiliates and its officers, directors, employees, consultants and agents, from and against any and all losses, claims, costs, liabilities and expenses (including reasonable attorneys’ fees) relating to or arising out of your use of the Website, including but not limited to (i) any violation by you of these Terms & Conditions, or (ii) any action arising from any content posted by you on the Website or using the Website to infringe the intellectual property rights of Mir Spirits or of any third party, or (iii) any content or communication that disparages, defames, libels or invades the privacy right of any third party. 
+                </li>
+                <br>
+                <li>
+                    This indemnity provision shall survive termination of these Terms & Conditions.
+                </li>
+                <br><br>
+            </ul>
+            
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">5. Links to Third Party Websites. </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                 The Website may have links/hyperlinks to third party sites. Mir Spiritsassumes no responsibility of any kind and further accepts no liability for any content, products or services of third party websites that may be linked to or accessed from the Website. Mir Spiritsdoes not recommend or endorse such content, products or services of such third party websites and assumesno liability of any sort as to the same or the functioning, accuracy or reliability or such third party sites.   
+                </li>
+                <br><br>
+            </ul> 
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">6. Termination. </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                 These Terms & Conditions constitute a binding legal agreement between you and Mir Spiritsunless terminated by you or Mir Spiritsas hereunder. Mir Spiritsreserves the right, without notice and to its sole discretion, to restrict, suspend or terminate your access to the Website or any part thereof at any timeand for any reason. Further,Mir Spirits may terminate or suspend your access to the Website at any time and without notice if it reasonably believes that you have breached these Terms& Conditions.
+                </li>
+                <br>
+                <li>
+                   After your access to the Website is terminated or suspended, all the terms hereof shall survive such termination or suspension, and continue in full force and effect, except for any terms that by their nature expire or are fully satisfied.
+                </li>
+                <br><br>
+            </ul>
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">7. Modifications to the Website. </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                Mir Spiritsreserves the right at any time to modify or discontinue, temporarily or permanently, the Website or any part thereof with or without notice. You agree that Mir Spirits shall not be liable to you or to any third party for any modification, suspension or discontinuance of the Website. Any access or usage by you of the Website shall imply that you have accepted any new or modified terms.   
+                </li>
+                <br>
+                <li>
+                   Please re-visit these Terms & Conditions on the Website from time to time to stay abreast of any changes that Mir Spiritsmay introduce.  
+                </li>
+                <br><br>
+            </ul>
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">8. Miscellaneous. </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                Entire Agreement: These Terms & Conditions constitute the entire agreement between you and Mir Spiritsregarding the subject matter hereof, and replaces and supersedes any and all prior agreements/ understandings/ correspondences, whether written or oral, between you and Mir Spirits
+                </li>
+                <br>
+                <li>
+                 Survival: Termination or suspension of your Website access shall not affect those provisions hereof that by their nature are intended to survive such termination or suspension.  
+                </li>
+                <br>
+                <li>
+                 Governing Law and Jurisdiction:These Terms & Conditions shall be governed and construed in accordance with the laws of India in relation to any legal action or proceedings to enforce the same. You irrevocably submit to the exclusive jurisdiction of any competent courts situated at Mumbai and waive any objection to such proceedings on grounds of venue or on the grounds that the proceedings have been brought in an inconvenient forum.  
+                </li>
+                <br>
+                <li>
+                 Severability: If any provisions of these Terms & Conditions are held invalid or unenforceable under applicable law, such provision will be inapplicable, but the remainder will continue in full force and effect.     
+                </li>
+                <br>
+                <li>
+                 Waiver:No waiver of any term, provision or condition of these Terms & Conditions whether by conduct or otherwise in any one or more instances shall be deemed to be or construed as a further or continuing waiver of any such term, provision or condition or of any other term, provision or condition of these Terms & Conditions.   
+                </li>
+                
+                <br><br>
+            </ul>
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">9. Contact Us.</span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                Please contact Mir Spirits on admin@mirspirits.com with any questions you may have regarding the Website or these Terms& Conditions.    
+                </li>
+                
+                <br><br>
+            </ul>
+            <span>Last Updated: July 24, 2015. </span>
+            </p>
+          </div>
+        </div>
+        
+        
+        <!-- ----------------------- -->
+        <div id="privacybk" style="width:100vw; height:100vh; position:fixed; background:rgba(160,160,164,.8); top:0; z-index:9; display:none">
+          <div id="privacybox" style="position:fixed; top:55px; left:5vw; width:90vw; height:90vh; background:#333;color:#fff; overflow-y:scroll; overflow-x:hidden; z-index:10; display:none; font-family: 'Raleway', sans-serif; line-height:20px;">
+          	<div class="close" style="position:fixed; right:7vw; top:58px; z-index:11; cursor:pointer; color:#fff;">&#215;</div>
+            <h3 style="text-align:center; margin-top:5vh; color:#A0A0A4; float:left">Privacy Policy </h3>
+            <p style="width:90%; margin-left:5%; margin-top:5vh; text-align:justify">
+            <span style="width:100%; float:left;">Greetings from www.krutovodka.in. </span>
+            <br>
+            <br>
+<?php echo nl2br('We at Mir Spirits Private Limited respect the privacy of our users and the confidentiality of the information provided by you and have developed this Privacy Policy to demonstrate our commitment to protecting the same. This Privacy Policy describes the type of information we collect, purpose, usage, storage and handling of such information, and disclosure thereof. We encourage you to read this Privacy Policy very carefully when (i) accessing/using our website www.krutovodka.in or our services through the said website or our mobile application (collectively referred to as the "Service"), or (ii) availing any products or services offered on or through the Service, from any computer, computer device or mobile. By using our Serviceyou are accepting the practices described in this Privacy Policy.')?>
+            <br><br>
+            <span style="width:100%; float:left; font-weight:600">1. What information do we collect? </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                 When you use the Service, we may collect your personal and non-personal information. Your personal information helps us to collect data that can directly identify you such as your name, surname, email address, date of birth, phone number, credit card/debit card and other payment instrument details("personal information"). We also collect yournon-personal information that does not directly identify you. By using the Service, you are authorizing us to collect, parse, store, process, disclose, disseminate and retain such information as envisaged herein and making this public to other users. 
+                </li>
+                <br>
+                <li>
+                  We do not knowingly promote our Service to any person (i) who is not of legal drinking age in his/her country or territory of residence, and (i) in a country or territory where access to the Services is not permitted.Since it is not possible to verify the authenticity of all data received we presume that all personal and non-personal user information provided to us is factual and true.
+                </li>
+                <br>
+                <li>
+                  We use various tools and technologies to collect your non-personal information such as your IP address, device ID and type, your browser type and language, operating system used by your device, access times, your device geographic location and the referring website address. 
+                </li>
+                <br>
+                <li>
+                  When you visit our Service, we may assign your device one or more cookies. A "cookie" is a small piece of data sent from a website and stored by a web server on a user's browser while the user is browsing that website. We place cookies to facilitate access to our Service 
+and to personalize your experience. Through the use of a cookie, we may also automatically collect information about your activity on our Service, such as the pages you visit, the time and date of your visits and the links you click. If we advertise, we (or third parties) may use certain data collected on our Service to show you our advertisements on other sites or applications. The cookies do not contain any of your personally identifiable information.  
+                </li>
+                <br>
+                <li>
+                  We may allow our partner websites and service providers, advertising companies and ad networks, and other third parties to display advertisements on our Service. These third parties may use tracking technologies such as cookies or web beacons to collect information about users who view or interact with their advertisements. We do not provide any nonanonymized personal information to such third parties. 
+                </li>
+                <br><br>
+            </ul>
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">2. How we use the information we collect?  </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                 We may use information that we collect from you to: 
+                 	<ul style="margin-left:5%; width:100%; float:left;">
+                    	<li>
+                        	to identify an user profile at the time of website access; 
+                        </li>
+                        <li>
+                        	deliver and improve our products and services, and manage our business;
+                        </li>
+                        <li>
+                        	perform, research and analyze your use of, or interest in, our or others’ products, services or content; 
+                        </li>
+                        <li>
+                        	communicate with you by email, postal mail, telephone and/or mobile devices about products or services that may be of interest to you, either from us or other third parties;  
+                        </li>
+                        <li>
+                        	develop, display, and track content and advertising tailored to your interests on our Service and other sites, including providing our advertisements to you when you visit other sites; 
+                        </li>
+                        <li>
+                        	website or mobile application analytics; 
+                        </li>
+                        <li>
+                        	verify your eligibility and deliver prizes in connection with contests and sweepstakes; 
+                        </li>
+                        <li>
+                        	enforce or exercise any rights in our Website Terms of Service; and 
+                        </li>
+                        <li>
+                        	Perform functions or services as otherwise described to you at the time of collection. 
+                        </li>
+                        <br><br>
+                    </ul>
+                </li>
+                <br><br>
+            </ul>
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">3. With whom we share your information? </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                 We do not share your personal information with others except as indicated in this Privacy Policy. We may share your personal information withour affiliates, partners and service providers whomay render certain services on our behalf but strictly for the purpose of rendering such services. These services may include fulfilling orders, providing customer 
+service and marketing assistance; performing business and sales analysis; tracking and analytics; member screenings and supporting our Service functionality, contests, sweepstakes, surveys and other features offered through our Service. These service providers are however not permitted to share or use such information for any other purposes.
+                </li>   
+                <br>
+                <li> 
+                 We may also disclose your personal information (i) for complying with applicable laws, requests or orders from law enforcement agencies or appropriate authorities or for any legal process; (ii) for enforcing the Website Terms & Conditions; (iii) for protecting or defending ours, any Service member’s or any third party's rights or property; (iv) for supporting any fraud/ legal investigation/ verification checks; (v) as the information involves a party who may be a victim of any abuse in any form; or (vi) in connection with a corporate transaction, including but not limited to sale of our business, merger, consolidation, or in the unlikely event of bankruptcy.  
+                </li>
+                 <br>
+                 <li> 
+                We may use and share your non-personal information we collect under any of the above circumstances, including with third parties to develop and deliver targeted advertising on our Service and on websites and/or applications of third parties, and to undertake analysis thereof. We may combine non-personal information we collect with additional non-personal information collected from other sources. We may also share aggregated, non-personal information, or personal information in hashed, non-human readable form with third parties, including advisors, advertisers and investors, for the purpose of conducting general business analysis or other business purposes.  
+                </li>        
+                <br><br>
+            </ul>
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">4. Links to Third Party Websites.</span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                The Service may, from time to time, contain links to as well as from third party websites, including our partner websites, advertisers or affiliates. If you follow such link to any of these websites, please note that these websites have their own privacy policies and that we do not accept any liability or responsibility for their policies. Please check the privacy policies of such third parties before you provide any information to them.
+                </li>   
+                <br>
+                <li> 
+                 We at www.krutovodka.in will not be liable or responsible for any damage or loss caused by any third party advertisement to your platform / device used to access www.krutovodka.in.
+                </li>    
+                <br><br>
+            </ul>
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">5. How can you access or control your information?</span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                If you log out from the Services, we may retain certain information associated with your Services usage for analytical purposes and recordkeeping purposes or as required by law, as well as to prevent fraud, enforce our Service terms, take actions we deem necessary to protect the integrity of our Service or other Service users, or take other actions otherwise permitted by law. In addition, if certain information has already been provided to third parties as described in this Privacy Policy, retention of that information will be subject to those third parties' policies.
+                </li>   
+                <br>
+                <li> 
+                 You can choose not to provide us with certain information; however this may result in you being unable to use certain features of our Service. You can also control information collected by cookies. You can delete or decline cookies by changing your browser settings. Our Service may also deliver notifications to your email or mobile device. You can disable these notifications by deleting the relevant Service or by changing the settings on your mobile device. 
+                </li>
+                <br>
+                <li> 
+                 You are solely liable and responsible for any information you provide and/or share using the Service. 
+                </li>
+                <br><br>
+            </ul>
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">6. How do we protect your personal information? </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+                We adopt reasonable security practices and procedures to help safeguard your personal information under our control from unauthorized access. However, you acknowledge that no Internet transmission or system or server can be 100% secure. Therefore, although we take all reasonable steps to secure your personal information, we do not promise or guarantee the same, and you should not expect that your personal information, chats, or other communications while using the Service will always remain secure and safeguarded by us. You should always exercise caution while providing, sharing or disclosing your personal information using the Service. We request you to take steps to keep your personal information safe and to always log out of the Service after use.
+                </li>   
+                <br>
+                <li> 
+                 You are solely liable and responsible for any information you provide and/or share using the Service. 
+                </li>
+                <br><br>
+            </ul>
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">7. Changes to this Privacy Policy. </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+               We may occasionally update this Privacy Policy. When we post changes to this Privacy Policy, we will revise the "last updated" date. We recommend that you check our Service from time to time to keep yourself updated of any changes in this Privacy Policy or any of our other Service policies.  
+                </li>
+                <br><br>
+            </ul>
+            
+            <span style="width:90%; margin-left:5%; float:left; font-weight:600">8. Contact us. </span>
+            <ul class="termsul" style="width:85%;height:auto;float:left;padding-left:5%; margin-left:5%;">
+                <li> 
+              Please contact us by email on admin@mirspirits.com for any questions or comments regarding this Privacy Policy.  
+                </li>
+                <br><br>
+            </ul>
+            <span style="float:left; width:100%;">Last Updated: July 24, 2015. </span>
+            </p>
+            
+            
+          </div>
+        </div>
+          
+      </div>
+      
+
+</div>
+<script>
+$('#pause').click(function(){
+	$(this).fadeOut();
+	$('#play').fadeIn();
+	$("#cocktailmusic").trigger('pause');
+});
+
+$('#play').click(function(){
+	$(this).fadeOut();
+	$('#pause').fadeIn();
+	$("#cocktailmusic").trigger('play');
+});
+
+</script>
+
+<script>
+$(document).ready(function() {
+	var du= new Date();
+	var nu = du.getTime();
+	var nx =parseInt(nu);
+	
+	
+	var mar=<?php echo $martini_l ?>;
+	var roc=<?php echo $rockstars_l ?>;
+	var sho=<?php echo $shooters_l ?>;
+	var sno=<?php echo $snobs_l ?>;
+	var mul=<?php echo $mules_l ?>;
+	var l=<?php echo $l ?>;
+	var w=l*100;
+	var k=1;
+	$('.slides').css({width:w+'vw'});
+	for(k=1;k<=l; k++)
+	{
+		$('#slide'+k).css({width:'100vw', height:'100vh', float:'left', overflow:'hidden'})
+	}
+	var start=1;
+	var i=1;
+	var j=0;
+	var pr=-100;
+	var pl=0;
+		
+	$('#martini').unbind().click(function(){
+		start=1;
+		l=start+mar-1;
+		$('.twistedmartins,.twistedrockstars,.twistedshooters,.twistedsnobs,.twistedmules').hide();
+		$('.twistedmartins').show();
+		slide();
+	})
+	$('#rockstars').unbind().click(function(){
+		start=mar+1;
+		l=start+roc-1;
+		$('.twistedmartins,.twistedrockstars,.twistedshooters,.twistedsnobs,.twistedmules').hide();
+		$('.twistedrockstars').show();
+		slide();
+	})
+	$('#shooters').unbind().click(function(){
+		start=mar+roc+1;
+		l=start+sho-1;
+		$('.twistedmartins,.twistedrockstars,.twistedshooters,.twistedsnobs,.twistedmules').hide();
+		$('.twistedshooters').show();
+		slide();
+	})
+	$('#snobs').unbind().click(function(){
+		start=mar+roc+sho+1;
+		l=start+sno-1;
+		$('.twistedmartins,.twistedrockstars,.twistedshooters,.twistedsnobs,.twistedmules').hide();
+		$('.twistedsnobs').show();
+		slide();
+	})
+	$('#mules').unbind().click(function(){
+		start=mar+roc+sho+sno+1;
+		l=start+mul-1;
+		$('.twistedmartins,.twistedrockstars,.twistedshooters,.twistedsnobs,.twistedmules').hide();
+		$('.twistedmules').show();
+		slide();
+	})
+	
+	
+	$('.btn').mouseenter(function(){
+		$(this).animate({opacity:1});
+	});
+	
+	$('.btn').mouseleave(function(){
+		$(this).animate({opacity:0});
+	});
+	
+	$('.btn,.nex1').click(function(){
+		$('#cocktailmusic').play();
+	})
+	
+	$('.resp').css({transform:'rotate(-90deg)'});
+	//$('#cuban').css({transform:'rotate(-.9deg)'});
+	$('#cuba_bk').css({transform:'rotate(-1.5deg)'});
+	$('#event_black').css({transform:'rotate(-1deg)'});
+	$('#irishhouse').css({transform:'rotate(.3deg)'});
+	
+	$('.nex1').unbind().click(function()
+	{
+		start=1;
+		$('.twistedmartins,.twistedrockstars,.twistedshooters,.twistedsnobs,.twistedmules').show();
+		slide();	
+	});
+	
+	function slide()
+	{
+		if (navigator.userAgent.search("Chrome") >= 0) {
+			//alert("Browser is Chrome");
+				i=start;
+				j=start-1;
+				pr=-100;
+				pl=0;
+				$('.slider').animate({'margin-left':'-100vw'});
+				setTimeout(function(){$('#t'+i).animate({'margin-left':'42vw'},1500)},1500);
+				setTimeout(function(){$('#s'+i+'1').animate({width:'18vw','margin-top':'32vh','margin-left':'52vw'},2000)},500);
+				setTimeout(function(){$('#s'+i+'2').animate({width:'17vw','margin-top':'13vh','margin-left':'62vw'},3000)},1000);
+				setTimeout(function(){$('#s'+i+'3').animate({width:'20vw','margin-top':'24vh','margin-left':'75vw'},4000)},1500);
+				
+				setTimeout(function(){$('#p'+i+'1').animate({opacity:1},1000)},3000);
+				setTimeout(function(){$('#p'+i+'2').animate({opacity:1},1000)},4000);
+				setTimeout(function(){$('#p'+i+'3').animate({opacity:1},1000)},5000);
+
+					$('#nex').click(function (event)
+					{
+						var d = new Date();
+						var dd = d.getTime();
+						var ddd =parseInt(dd);
+						var ans = ddd - nx;
+						nx=parseInt(dd);
+						if(ans < 1000)
+						{
+							exit();
+						}
+						i=i+1;
+						j=j+1;
+								
+						if(i<=l)
+						{
+							$('.slides').animate({'margin-left':pr+'vw'},1000);
+							setTimeout(function(){$('#t'+i).animate({'margin-left':'42vw'},1500)},1500);
+							setTimeout(function(){$('#s'+i+'1').animate({width:'18vw','margin-top':'32vh','margin-left':'52vw'},2000)},500);
+							setTimeout(function(){$('#s'+i+'2').animate({width:'17vw','margin-top':'13vh','margin-left':'62vw'},3000)},1000);
+							setTimeout(function(){$('#s'+i+'3').animate({width:'20vw','margin-top':'24vh','margin-left':'75vw'},4000)},1500);
+							
+							setTimeout(function(){$('#p'+i+'1').animate({opacity:1},1000)},3000);
+							setTimeout(function(){$('#p'+i+'2').animate({opacity:1},1000)},4000);
+							setTimeout(function(){$('#p'+i+'3').animate({opacity:1},1000)},5000);
+							pr=pr-100;
+							pl=pl-100;
+						}
+						if(i>l)
+						{
+							$('.slider').animate({'margin-left':'0vw'},1000);
+							$('.slides').animate({'margin-left':'0vw'},2000);
+							
+							i=1;
+							j=0;
+							pr=-100;
+							pl=0;
+						}
+						cnt++;
+					});
+					$('#pre').click(function (event)
+					{
+						d = new Date();
+						dd = d.getTime();
+						ddd =parseInt(dd);
+						ans = ddd - nx;
+						nx=parseInt(dd);
+						if(ans < 1000)
+						{
+							exit();
+						}
+						pl=pl+100;
+						pr=pr+100;
+						i=i-1;
+						j=j-1;
+						if(i<=l)
+						{
+							$('.slides').animate({'margin-left':pl+'vw'},1000);
+							pl=pr+100;
+							pr=pl-100;
+						}
+						if(i<start)
+						{
+							$('.slides').animate({'margin-left':'0vw'},2000);
+							$('.slider').animate({'margin-left':'0vw'});
+							
+							i=1;
+							j=0;
+							pr=-100;
+							pl=0;
+						}
+					});
+					/*$('.four').mouseleave(function(){
+						$('.slides').animate({'margin-left':'0vw'},2000);
+						$('.slider').animate({'margin-left':'0vw'});
+						$('.btn').animate({opacity:0});
+						
+						pr=-100;
+						pl=0;
+						i=1;
+						j=0
+					});*/
+			}
+			else
+			{
+				i=start;
+				j=start-1;
+				pr=-100;
+				pl=0;
+					$('#slide1').ScrollTo();
+					
+					setTimeout(function(){$('#t'+i).animate({'margin-left':'42vw'},1500)},1500);
+					setTimeout(function(){$('#s'+i+'1').animate({width:'18vw','margin-top':'32vh','margin-left':'52vw'},2000)},500);
+					setTimeout(function(){$('#s'+i+'2').animate({width:'17vw','margin-top':'13vh','margin-left':'62vw'},3000)},1000);
+					setTimeout(function(){$('#s'+i+'3').animate({width:'20vw','margin-top':'24vh','margin-left':'75vw'},4000)},1500);
+					
+					setTimeout(function(){$('#p'+i+'1').animate({opacity:1},1000)},3000);
+					setTimeout(function(){$('#p'+i+'2').animate({opacity:1},1000)},4000);
+					setTimeout(function(){$('#p'+i+'3').animate({opacity:1},1000)},5000);
+					
+					
+					$('#nex').click(function (event)
+					{
+						var d = new Date();
+						var dd = d.getTime();
+						var ddd =parseInt(dd);
+						var ans = ddd - nx;
+						nx=parseInt(dd);
+						if(ans < 1000)
+						{
+							exit();
+						}
+						i=i+1;
+						j=j+1;
+						if(i<=l)
+						{
+							
+							$('.slides').animate({'margin-left':pr+'vw'},1000);
+							
+							setTimeout(function(){$('#t'+i).animate({'margin-left':'42vw'},1500)},1500);
+							setTimeout(function(){$('#s'+i+'1').animate({width:'18vw','margin-top':'32vh','margin-left':'52vw'},2000)},500);
+							setTimeout(function(){$('#s'+i+'2').animate({width:'17vw','margin-top':'13vh','margin-left':'62vw'},3000)},1000);
+							setTimeout(function(){$('#s'+i+'3').animate({width:'20vw','margin-top':'24vh','margin-left':'75vw'},4000)},1500);
+							
+							setTimeout(function(){$('#p'+i+'1').animate({opacity:1},1000)},3000);
+							setTimeout(function(){$('#p'+i+'2').animate({opacity:1},1000)},4000);
+							setTimeout(function(){$('#p'+i+'3').animate({opacity:1},1000)},5000);
+							pr=pr-100;
+							pl=pl-100;
+						}
+						if(i>l)
+						{
+							$('.front_slide').ScrollTo();
+							$('.slides').animate({'margin-left':'0vw'},2000);
+							pr=-100;
+							pl=0;
+							i=1;
+							j=0;
+						}
+					});
+					$('#slide1').mouseenter(function(){
+						setTimeout(function(){$('#t'+i).animate({'margin-left':'42vw'},1500)},1500);
+						setTimeout(function(){$('#s'+i+'1').animate({width:'18vw','margin-top':'32vh','margin-left':'52vw'},2000)},500);
+						setTimeout(function(){$('#s'+i+'2').animate({width:'17vw','margin-top':'13vh','margin-left':'62vw'},3000)},1000);
+						setTimeout(function(){$('#s'+i+'3').animate({width:'20vw','margin-top':'24vh','margin-left':'75vw'},4000)},1500);
+						
+						setTimeout(function(){$('#p'+i+'1').animate({opacity:1},1000)},3000);
+						setTimeout(function(){$('#p'+i+'2').animate({opacity:1},1000)},4000);
+						setTimeout(function(){$('#p'+i+'3').animate({opacity:1},1000)},5000);
+					})
+					$('#pre').click(function (event)
+					{
+						d = new Date();
+						dd = d.getTime();
+						ddd =parseInt(dd);
+						ans = ddd - nx;
+						nx=parseInt(dd);
+						if(ans < 1000)
+						{
+							exit();
+						}
+						pl=pl+100;
+						pr=pr+100;
+						i=i-1;
+						j=j-1;
+						if(i<=l)
+						{
+							$('.slides').animate({'margin-left':pl+'vw'},1000);
+							pl=pr+100;
+							pr=pl-100;
+						}
+						if(i<start)
+						{
+							
+							$('.slides').animate({'margin-left':'0vw'},2000);
+							$('.front_slide').ScrollTo();
+							i=1;
+							j=0;
+							pr=-100;
+							pl=0;
+						}
+					});
+					
+					
+					/*$('.four').mouseleave(function(){
+						
+						$('.slides').animate({'margin-left':'0vw'},2000);
+						$('.front_slide').ScrollTo();
+						$('.btn').animate({opacity:0});
+						pr=-100;
+						pl=0;
+						i=1;
+						j=0
+					});*/
+			}
+	}
+	
+		
+		
+		$('.mystorypostb img,.mystorypostw img').css({cursor:'pointer'});
+		$('.mystorypostw a img').mouseenter(function(){
+			$('.mystorypostw img').animate({opacity:'1'});
+		});
+		
+		$('.mystorypostw img').mouseleave(function(){
+			$('.mystorypostw a img').animate({opacity:'0'});
+		});
+		
+		$('#slider_bottle_w').mouseenter(function(){
+			$(this).animate({opacity:'1'});
+		});
+		
+		$('#slider_bottle_w').mouseleave(function(){
+			$(this).animate({opacity:'0'});
+		});
+		
+		
+		$('img#nxt_nhover').mouseenter(function(){
+			$('img#nxt_hover').fadeIn(200);
+			$('img#nxt_nhover').fadeOut(0);
+			
+		});
+		$('img#nxt_hover').mouseleave(function(){
+			$('img#nxt_hover').fadeOut(200);
+			$('img#nxt_nhover').fadeIn(0);
+			
+		});
+		$('.four').mouseenter(function(){
+			$('#diag').animate({width:'19%','margin-left':'50%','margin-top':'7.5%'},500);
+		})
+		$('#shake').css({'transform':'rotate(-3deg)'});
+});
+</script>
+<script>
+setTimeout(function(){
+	$("#cocktailmusic").trigger('play');
+	$('body').addClass('loaded');
+	$('h1').css('color','#222222');
+	},20000);
+	$(document).ready(function(){
+	/* Nice Scroll Code Starts Here */
+	 $("html").niceScroll();
+	 $('p').niceScroll();
+	 $('p').getNiceScroll().show();
+	 nice = $("html").niceScroll();
+	 $("html").getNiceScroll().hide();
+	  //$("#thisdiv").niceScroll({cursorcolor:"#00F"});
+	/* Nice Scroll Code Ends Here */
+});
+
+</script>
+</body>
+
+</html>
