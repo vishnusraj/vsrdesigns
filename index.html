@@ -1,5 +1,6 @@
 <!doctype html>
-
+<!-- Made in Framer · framer.com ✨ -->
+<!-- Published Mar 27, 2026, 7:09 PM UTC -->
 <html lang="en" data-redirect-timezone="1">
 
 
@@ -7,7 +8,6 @@
     <meta charset="utf-8">
 
 
-    <script>try { if (localStorage.get("__framer_force_showing_editorbar_since")) { const n = document.createElement("link"); n.rel = "modulepreload"; n.href = "https://framer.com/edit/init.mjs"; document.head.appendChild(n) } } catch (e) { }</script>
     <!-- Start of headStart -->
 
     <!-- End of headStart -->
@@ -17,9 +17,9 @@
     <meta name="description"
         content="A modern portfolio showcasing UI/UX, branding, and visual design with a focus on simplicity, creativity, and user-centred experiences—crafting impactful, visually engaging digital solutions.">
     <meta name="framer-search-index"
-        content="https://framerusercontent.com/sites/2J7SfOOWMxOCxAlo8oDjlG/searchIndex-UPAksA3mfCaa.json">
+        content="assets/js/searchIndex-UPAksA3mfCaa.json">
     <meta name="framer-search-index-fallback"
-        content="https://framerusercontent.com/sites/2J7SfOOWMxOCxAlo8oDjlG/searchIndex-0ze50ohBIRET.json">
+        content="assets/js/searchIndex-0ze50ohBIRET.json">
     <link href="assets/images/ygWa2IKVBF23reWFyZbUfCM4i8.png" rel="icon" media="(prefers-color-scheme: light)">
     <link href="assets/images/zSTcnZ6cLqF47IVAK5ETtv6yYew.png" rel="icon" media="(prefers-color-scheme: dark)">
     <link rel="apple-touch-icon" href="assets/images/ngVUqvpAouf4tFcpN6MR3EO9TGs.png">
@@ -667,7 +667,7 @@
 
     <meta name="robots" content="max-image-preview:large">
     <link rel="canonical" href="index.html">
-    <meta property="og:url" content="https://nutty-mercury-431347.framer.app/">
+    <meta property="og:url" content="www.vsrdesigns.com">
     <style data-framer-breakpoint-css>
         @media(min-width: 1440px) {
             .hidden-7rggy9 {
@@ -14323,40 +14323,40 @@
 
     <!-- End of bodyEnd -->
     <script>
-(function () {
-    const selectors = [
-        ".framer-g67nvo-container",
-        ".framer-14ay4me-container",
-        ".framer-1m5cgf5-container",
-        ".framer-1g5lzdu-container",
-        ".framer-1yltavx-container",
-".framer-1670h4z"
-    ];
+        (function () {
+            const selectors = [
+                ".framer-g67nvo-container",
+                ".framer-14ay4me-container",
+                ".framer-1m5cgf5-container",
+                ".framer-1g5lzdu-container",
+                ".framer-1yltavx-container",
+                ".framer-1670h4z"
+            ];
 
-    function removeElements() {
-        selectors.forEach(selector => {
-            document.querySelectorAll(selector).forEach(el => {
-                el.remove();
+            function removeElements() {
+                selectors.forEach(selector => {
+                    document.querySelectorAll(selector).forEach(el => {
+                        el.remove();
+                    });
+                });
+            }
+
+            // Run immediately
+            removeElements();
+
+            // Run after full load
+            window.addEventListener("load", removeElements);
+
+            // Observe DOM changes (handles Framer re-injection + navigation)
+            const observer = new MutationObserver(() => {
+                removeElements();
             });
-        });
-    }
 
-    // Run immediately
-    removeElements();
-
-    // Run after full load
-    window.addEventListener("load", removeElements);
-
-    // Observe DOM changes (handles Framer re-injection + navigation)
-    const observer = new MutationObserver(() => {
-        removeElements();
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-})();
-</script>
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        })();
+    </script>
 </body>
 </html>
